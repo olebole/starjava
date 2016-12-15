@@ -32,12 +32,6 @@
  !-->
 
 <project name="Build file for pal" default="build" basedir=".">
-
-  <!-- If either or both of these files exist then any properties
-   !   contained within them will override those defined here.  -->
-  <property file="${user.home}/.stardev.properties"/>
-  <property file=".properties"/>
-
   <!-- Properties will also be set for all environment variables
    !   (PATH becomes "env.PATH"), generally not a good
    !   idea as names are OS dependent -->
@@ -77,8 +71,8 @@
    !-->
 
   <!-- Define the package name and current versions -->
-  <property name="Name" value="PAL"/>
-  <property name="name" value="pal"/>
+  <property name="Name" value="Starjava PAL"/>
+  <property name="name" value="starlink-pal"/>
   <property name="version" value="1.0-1"/>
 
   <!-- The Java package name -->
@@ -193,12 +187,11 @@
    !   class files in preference to installed ones (an extra user-define
    !   defined CLASSPATH can also be used as needed).
    !-->
-  <extclasspath id="installed.classpath">
+  <path id="installed.classpath">
+  </path>
 
-    <!-- {Other packages} -->
-
-    <!-- {More packages} -->
-  </extclasspath>
+  <path id="jar.classpath">
+  </path>
 
   <!-- Generate the local build classpath. This is the most difficult
    !   part of handling the classpath. The local classes will be in
@@ -216,10 +209,7 @@
    !   doesn't work as expected add the additional classes/jars to
    !   the extra classpath.
    !-->
-  <extclasspath id="built.jarpath">
-
-    <!-- {More packages} -->
-  </extclasspath>
+  <path id="built.jarpath"/>
 
   <!-- "Local" third party jars. Normally these will be kept in their
    !   own third party package, but may be kept here temporarily, say
@@ -409,21 +399,18 @@
           description="-> creates the package jar file(s)">
 
     <mkdir dir="${dist.lib.pkg}"/>
+    <manifestclasspath property="jar.class.path"
+                       jarfile="${dist.lib.pkg}/${name}.jar">
+      <classpath refid="jar.classpath" />
+    </manifestclasspath>
     <jar destfile="${dist.lib.pkg}/${name}.jar"
          basedir="${build.classes}">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
-        <attribute name="Class-Path"
-            value=""/>
+        <attribute name="Class-Path" value="${jar.class.path}"/>
       </manifest>
     </jar>
 
-    <!-- Sign all jar files -->
-    <signjar jar="${dist.lib.pkg}/${name}.jar"
-             alias="${webstart.alias}"
-             keystore="${webstart.keystore}"
-             keypass="${webstart.keypass}"
-             storepass="${webstart.storepass}"/>
   </target>
 
 
