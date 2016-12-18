@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
-import org.jibble.epsgraphics.EpsGraphics2D;
+import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 
 /**
  * Superclass for all components which draw plots from table data.

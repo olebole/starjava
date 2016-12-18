@@ -460,7 +460,7 @@ public class DensityPlot extends SurfacePlot {
 
             /* Tweak so that exact positioning of lines between pixel and
              * graphics plotting doesn't look wrong.  Possibly this is only
-             * required for (a bug in) org.jibble.epsgraphics.EpsGraphics2D? */
+             * required for (a bug in) net.sf.epsgraphics.EpsGraphics2D? */
             if ( isVectorContext( g ) ) {
                 Rectangle clip = getSurface().getClip().getBounds();
                 int cx = clip.x - 2;

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.zip.GZIPOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
-import org.jibble.epsgraphics.EpsGraphics2D;
+import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 
 /**
  * Exports painted graphics to an output file in some graphics format.

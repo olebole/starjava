@@ -1045,7 +1045,7 @@ public class ScatterPlot extends SurfacePlot {
                      * pixel out to get the image border and a further one
                      * to cover the remains of that border in the vector
                      * context.  That gives you the right look using the
-                     * org.jibble.epsgraphics.EpsGraphics2D context anyway.
+                     * net.sf.epsgraphics.EpsGraphics2D context anyway.
                      * I'm not sure if having to do this is a bug in the
                      * Jibble renderer. */
                     Rectangle clip = getSurface().getClip().getBounds();

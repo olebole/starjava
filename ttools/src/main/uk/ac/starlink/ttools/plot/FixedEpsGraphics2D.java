@@ -5,13 +5,13 @@ import java.awt.Shape;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import org.jibble.epsgraphics.EpsGraphics2D;
+import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 
 /**
  * Graphics2D implementation which can write to Encapsulated PostScript.
  *
  * <p>This is a very slight modification of 
- * <code>org.jibble.epsgraphics.EpsGraphics2D</code>
+ * <code>net.sf.epsgraphics.EpsGraphics2D</code>
  * which addresses some (apparent?) bugs in that class.
  * The jibble library used to be GPL but is now released under a more
  * restrictive (and expensive) license, so applying a fix to the original
