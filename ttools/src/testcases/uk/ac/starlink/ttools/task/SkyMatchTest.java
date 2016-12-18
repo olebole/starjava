@@ -246,12 +246,6 @@ public class SkyMatchTest extends TableTestCase {
          * especially sky and sky3d, which are using geometrically quite
          * different criteria. */
         if ( withChecks ) {
-            MapEnvironment thtmEnv = new MapEnvironment()
-               .setValue( "params", Double.toString( tol ) )
-               .setValue( "matcher", "htm" );
-            StarTable thtmResult =
-                tmatch2( thtmEnv, t1, "ra1 dec1", t2, "ra2 dec2" );
-
             MapEnvironment tsky3dEnv = new MapEnvironment()
                .setValue( "params",
                           Double.toString( tol * CoordsRadians
@@ -285,7 +279,6 @@ public class SkyMatchTest extends TableTestCase {
                                                  t2, "ra2", "dec2", tol );
 
             assertSameData( tskyResult, skyResult );
-            assertSameData( tskyResult, thtmResult );
 
             // Sky3d matcher output will be different since the separation
             // column is not the same.  It will have the same number of

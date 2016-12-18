@@ -5,8 +5,6 @@
 
 package uk.ac.starlink.ttools.func;
 
-import edu.jhu.htm.core.HTMException;
-import edu.jhu.htm.core.HTMfunc;
 import gov.fnal.eag.healpix.PixTools;
 import javax.vecmath.Vector3d;
 
@@ -36,24 +34,6 @@ public class Tilings {
     private Tilings() {
     }
 
-    /**
-     * Gives the HTM (Hierachical Triangular Mesh) pixel index for a given
-     * sky position.
-     *
-     * @param   level   HTM level
-     * @param   lon     longitude in degrees
-     * @param   lat     latitude in degrees
-     * @return   pixel index
-     * @see      <a href="http://www.skyserver.org/htm/">HTM web site</a>
-     */
-    public static long htmIndex( int level, double lon, double lat ) {
-        try {
-            return HTMfunc.lookupId( lon, lat, level );
-        }
-        catch ( HTMException e ) {
-            throw new IllegalArgumentException( e.getMessage() );
-        }
-    }
 
     /**
      * Gives the pixel index for a given sky position in the HEALPix 

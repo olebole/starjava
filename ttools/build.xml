@@ -442,6 +442,7 @@
       <!-- Exclude any files in the source tree that should not be
        !   compiled -->
       <include name="**/*.java"/>
+      <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -1067,6 +1068,7 @@
       <packageset dir="${java.dir}" defaultexcludes="yes">
          <include name="**"/>
          <exclude name="uk/ac/starlink/ttools/build"/>
+	 <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
       </packageset>
 
       <!-- Link to the full Java API at SUNs website -->
@@ -1457,6 +1459,7 @@
 
       <classpath refid="tests-classpath"/>
 
+      <exclude name="uk/ac/starlink/ttools/task/TableMatch1Test.java"/>
     </javac>
 
   </target>
@@ -1498,6 +1501,7 @@
         <fileset dir="${tests.dir}">
           <include name="**/*Test.java"/>
           <exclude name="**/net_tests/*"/>
+          <exclude name="uk/ac/starlink/ttools/task/TableMatch1Test.java"/>
         </fileset>
       </batchtest>
 

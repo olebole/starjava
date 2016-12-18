@@ -15,7 +15,6 @@ import uk.ac.starlink.table.join.EllipseCartesianMatchEngine;
 import uk.ac.starlink.table.join.EllipseSkyMatchEngine;
 import uk.ac.starlink.table.join.EqualsMatchEngine;
 import uk.ac.starlink.table.join.FixedSkyMatchEngine;
-import uk.ac.starlink.table.join.HtmSkyPixellator;
 import uk.ac.starlink.table.join.IsotropicCartesianMatchEngine;
 import uk.ac.starlink.table.join.MatchEngine;
 import uk.ac.starlink.table.join.PixtoolsHealpixSkyPixellator;
@@ -499,10 +498,6 @@ public class MatchEngineParameter extends Parameter<MatchEngine>
                 int ndim = Integer.parseInt( cName.substring( 0, 1 ) );
                 component =
                    new CuboidCartesianMatchEngine( new double[ ndim ] );
-            }
-            else if ( cName.equalsIgnoreCase( "htm" ) ) {
-                component = new FixedSkyMatchEngine( new HtmSkyPixellator(),
-                                                     ARC_SECOND );
             }
             else {
                 component = Loader.getClassInstance( cName, MatchEngine.class );

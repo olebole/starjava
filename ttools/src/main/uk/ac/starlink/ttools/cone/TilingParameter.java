@@ -75,10 +75,6 @@ public class TilingParameter extends Parameter<SkyTiling> {
             int k = getNumberSuffix( svalue, HEALPIX_RING_PREFIX );
             return new HealpixTiling( k, false );
         }
-        else if ( lvalue.startsWith( HTM_PREFIX ) ) {
-            int level = getNumberSuffix( svalue, HTM_PREFIX );
-            return new HtmTiling( level );
-        }
         else {
             throw new ParameterValueException( this, "Unknown tiling scheme \""
                                                    + svalue + "\"" );

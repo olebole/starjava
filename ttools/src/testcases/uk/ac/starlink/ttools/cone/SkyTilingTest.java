@@ -85,15 +85,6 @@ public class SkyTilingTest extends TestCase {
         }
     }
 
-    public void testHtmTilings() {
-        double radius = 0.1/3600;
-        for ( int i = 0; i < 10; i++ ) {
-            int level = Tilings.htmLevel( radius );
-            checkTiling( new HtmTiling( level ), radius );
-            radius *= 2;
-        }
-    }
-
     public void testHealpixTilings() {
         double radius = 0.25/3600;
         for ( int i = 0; i < 10; i++ ) {
@@ -118,9 +109,6 @@ public class SkyTilingTest extends TestCase {
                     new HealpixTiling( k, false )
                        .getPositionTile( ra, dec),
                     Tilings.healpixRingIndex( k, ra, dec ) );
-                assertEquals(
-                    new HtmTiling( level ).getPositionTile( ra, dec ),
-                    Tilings.htmIndex( level, ra, dec ) );
             }
         }
     }
