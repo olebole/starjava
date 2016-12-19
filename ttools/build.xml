@@ -443,6 +443,8 @@
        !   compiled -->
       <include name="**/*.java"/>
       <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
+      <exclude name="uk/ac/starlink/ttools/task/StiltsServer.java"/>
+      <exclude name="uk/ac/starlink/ttools/server/*.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -1069,6 +1071,8 @@
          <include name="**"/>
          <exclude name="uk/ac/starlink/ttools/build"/>
 	 <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
+	 <exclude name="uk/ac/starlink/ttools/task/StiltsServer.java"/>
+	 <exclude name="uk/ac/starlink/ttools/server/*.java"/>
       </packageset>
 
       <!-- Link to the full Java API at SUNs website -->

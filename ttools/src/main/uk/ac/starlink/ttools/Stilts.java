@@ -100,7 +100,6 @@ public class Stilts {
         taskFactory_.register( "plot3d", taskPkg + "TablePlot3D" );
         taskFactory_.register( "plothist", taskPkg + "TableHistogram" );
         taskFactory_.register( "regquery", taskPkg + "RegQuery" );
-        taskFactory_.register( "server", taskPkg + "StiltsServer" );
         taskFactory_.register( "sqlclient", taskPkg + "SqlClient" );
         taskFactory_.register( "sqlskymatch", taskPkg + "SqlCone" );
         taskFactory_.register( "sqlupdate", taskPkg + "SqlUpdate" );

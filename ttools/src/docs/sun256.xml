@@ -61,7 +61,6 @@
   <!ENTITY plot3d-summary SYSTEM 'plot3d-summary.xml'>
   <!ENTITY plothist-summary SYSTEM 'plothist-summary.xml'>
   <!ENTITY regquery-summary SYSTEM 'regquery-summary.xml'>
-  <!ENTITY server-summary SYSTEM 'server-summary.xml'>
   <!ENTITY sqlclient-summary SYSTEM 'sqlclient-summary.xml'>
   <!ENTITY sqlskymatch-summary SYSTEM 'sqlskymatch-summary.xml'>
   <!ENTITY sqlupdate-summary SYSTEM 'sqlupdate-summary.xml'>
@@ -279,7 +278,6 @@ same ground as the STIL and TOPCAT user documents
 <dd><p>
     <ref id="calc" plaintextref="yes"><code>calc</code></ref>,
     <ref id="funcs" plaintextref="yes"><code>funcs</code></ref> and
-    <ref id="server" plaintextref="yes"><code>server</code></ref>.
     </p></dd>
 </dl>
 See <ref id="classified"/> for an expanded version of this list.
@@ -6173,7 +6171,9 @@ If you have requirements which are not currently provided, please
 contact the author for discussion.
 </p>
 
-&server-summary;
+<p><strong>Note:</strong>
+The <code>server</code> command is not available in the Debian package yet.
+</p>
 
 <subsubsect>
 <subhead><title>Examples</title></subhead>
