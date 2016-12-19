@@ -14,6 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.xml.sax.SAXException;
@@ -258,7 +260,7 @@ public class CdsUploadMatcher implements UploadMatcher {
             new BufferedInputStream( ContentCoding.NONE.openStream( url ) );
         JSONObject infoObj;
         try {
-            JSONTokener jt = new JSONTokener( in );
+            JSONTokener jt = new JSONTokener( IOUtils.toString( in ) );
             Object next = jt.nextValue();
             if ( next instanceof JSONObject ) {
                 return new VizierMeta( (JSONObject) next );
@@ -266,7 +268,9 @@ public class CdsUploadMatcher implements UploadMatcher {
             else {
                 throw new IOException( "Unexpected JSON object from " + url );
             }
-        }
+        } catch (JSONException e) {
+		throw new IOException(e);
+	}
         finally {
             in.close();
         }
