@@ -85,7 +85,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumnModel;
 import org.astrogrid.samp.client.DefaultClientProfile;
-import uk.ac.starlink.plastic.PlasticUtils;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.table.StarTableFactory;
 import uk.ac.starlink.table.StarTableOutput;
@@ -101,7 +100,6 @@ import uk.ac.starlink.table.gui.TableLoader;
 import uk.ac.starlink.table.storage.MonitorStoragePolicy;
 import uk.ac.starlink.topcat.contrib.basti.BaSTITableLoadDialog;
 import uk.ac.starlink.topcat.contrib.gavo.GavoTableLoadDialog;
-import uk.ac.starlink.topcat.interop.PlasticCommunicator;
 import uk.ac.starlink.topcat.interop.SampCommunicator;
 import uk.ac.starlink.topcat.interop.TopcatCommunicator;
 import uk.ac.starlink.topcat.interop.Transmitter;
@@ -1492,10 +1490,6 @@ public class ControlWindow extends AuxWindow
         if ( "none".equals( interopType_ ) ) {
             logger_.info( "Run with no interop" );
             return null;
-        }
-        else if ( "plastic".equals( interopType_ ) ) {
-            logger_.info( "Run in PLASTIC mode by request" );
-            return new PlasticCommunicator( control );
         }
         else {
             final String msg;

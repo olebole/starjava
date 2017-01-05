@@ -36,8 +36,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import uk.ac.starlink.plastic.ApplicationItem;
-import uk.ac.starlink.plastic.MessageId;
 import uk.ac.starlink.table.ColumnData;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.StarTable;

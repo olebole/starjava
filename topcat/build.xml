@@ -431,7 +431,13 @@
       <exclude name="**/{Retired2.java}"/>
       <exclude name="**/*.html"/>
       <exclude name="**/*.properties*"/>
-    </javac>
+
+      <exclude name="uk/ac/starlink/topcat/interop/TopcatPlasticListener.java"/>
+      <exclude name="uk/ac/starlink/topcat/interop/PlasticCommunicator.java"/>
+      <exclude name="uk/ac/starlink/topcat/interop/SelectivePlasticListModel.java"/>
+      <exclude name="uk/ac/starlink/topcat/interop/TopcatTransmitter.java"/>
+      <exclude name="uk/ac/starlink/topcat/interop/PlasticImageActivity.java"/>
+   </javac>
 
     <!-- Copy extra files that should live with packages classes
      !   (i.e. are discovered using "getResource()"). -->
@@ -1217,10 +1223,15 @@
 
       <!-- Get a list of directories that name all the potential
        !   java packages -->
-      <packageset dir="${java.dir}" defaultexcludes="yes">
-         <include name="**"/>
+      <fileset dir="${java.dir}" defaultexcludes="yes">
+         <include name="**/*.java"/>
          <exclude name="uk/ac/starlink/topcat/doc"/>
-      </packageset>
+	 <exclude name="uk/ac/starlink/topcat/interop/TopcatPlasticListener.java"/>
+	 <exclude name="uk/ac/starlink/topcat/interop/PlasticCommunicator.java"/>
+	 <exclude name="uk/ac/starlink/topcat/interop/SelectivePlasticListModel.java"/>
+	 <exclude name="uk/ac/starlink/topcat/interop/TopcatTransmitter.java"/>
+	 <exclude name="uk/ac/starlink/topcat/interop/PlasticImageActivity.java"/>
+      </fileset>
 
       <!-- Link to the full Java API at SUNs website -->
       <link offline="true" href="${javaapi.url}"

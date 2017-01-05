@@ -3398,7 +3398,7 @@ messaging protocols:
 <li><webref url="http://www.ivoa.net/samp/">SAMP</webref>
     (Simple Applications Messaging Protocol)</li>
 <li><webref url="http://plastic.sourceforge.net/">PLASTIC</webref>
-    (PLatform for AStronomical InterConnection</li>
+    (PLatform for AStronomical InterConnection, <em>not available in the Debian version</em>)</li>
 </ul>
 An example of the kind of thing which can be done might be:
 <ol>
@@ -3433,9 +3433,8 @@ and others.
 the same way.  SAMP is an evolution of PLASTIC with a number of
 technical improvements, and PLASTIC has been deprecated in favour
 of SAMP since around 2009.
-PLASTIC is therefore of mainly historical interest,
-though TOPCAT can still run in PLASTIC mode on request,
-if you need it to communicate with older tools that can only speak PLASTIC.
+PLASTIC is therefore of mainly historical interest <em>and not implemented
+in the Debian version.</em>
 </p>
 
 <p>The communication architecture of the two protocols is basically the same:
@@ -3445,18 +3444,6 @@ If a hub is running when TOPCAT starts,
 or if one starts up while TOPCAT is in operation,
 it will connect to it automatically.
 If no SAMP hub is running, TOPCAT will set one up during application startup.
-</p>
-
-<p>TOPCAT can work in either SAMP or PLASTIC mode, but not both at once.
-It determines which mode to use at startup:
-if the <code>-samp</code> or <code>-plastic</code> flag is supplied
-on the command line the corresponding mode will be used;
-otherwise it will try to use SAMP.
-It is easy to tell which mode is being used by looking at the 
-<ref id="ControlWindow">Control Window</ref>;
-in SAMP mode the <ref id="sampPanel">SAMP panel</ref> displaying connection
-and message status is visible at the bottom of the right hand panel
-(there are a few other changes to the GUI as well).
 </p>
 
 <p>This communication has two aspects to it: on the one hand
@@ -3532,9 +3519,8 @@ by other SAMP applications.
 <subsect id="plasticControl">
 <subhead><title>PLASTIC control</title></subhead>
 
-<p><em>Note: the PLASTIC protocol has been deprecated in favour
-of SAMP since about 2009, and this functionality, though still present,
-is of mostly historical interest.</em>
+<p><em>Note: the PLASTIC protocol is not implemented in the Debian version
+of TOPCAT</em>
 </p>
 
 <p>You can view and control operations relating to the PLASTIC hub
@@ -3593,9 +3579,8 @@ It contains the following options:
 <subhead><title>Messages Transmitted</title></subhead>
 
 <p>This section describes the messages which TOPCAT can transmit to other 
-tools which understand the SAMP or PLASTIC protocol, and how to cause them
-to be sent.  Approximately the same behaviour results for either
-SAMP or PLASTIC, except as noted.
+tools which understand the SAMP protocol, and how to cause them
+to be sent.
 </p>
 
 <p>In most cases you can choose two ways to transmit a message
@@ -3625,7 +3610,7 @@ which claim to support the relevant message.
 </p>
 
 <p>Below is a list of places you can cause TOPCAT to transmit messages.
-The SAMP <em>MTypes</em> and PLASTIC <em>message IDs</em> 
+The SAMP <em>MTypes</em> <em>message IDs</em>
 are listed along with the descriptions;
 unless you are a tool developer you can probably ignore these.
 
@@ -3643,10 +3628,6 @@ unless you are a tool developer you can probably ignore these.
     <p>SAMP MTypes:
           <code>table.load.votable</code> or
           <code>table.load.fits</code>
-    </p>
-    <p>PLASTIC Message IDs:
-          <code>ivo://votech.org/votable/load</code> or
-          <code>ivo://votech.org/votable/loadFromURL</code>
     </p></dd>
 
 <dt>Transmit Subset</dt>
@@ -3664,7 +3645,7 @@ unless you are a tool developer you can probably ignore these.
     (1) the table has been loaded from the same URL/filename by the 
     other tool(s) or
     (2) the other tool(s) have acquired the table because it has 
-    already been broadcast using SAMP/PLASTIC.
+    already been broadcast using SAMP.
     </p>
     <p>Also, whenever a new subset is created, for instance by entering an
     algebraic expression or tracing out a region on a plot
@@ -3674,8 +3655,6 @@ unless you are a tool developer you can probably ignore these.
     the table's subset list.
     </p>
     <p>SAMP MType: <code>table.select.rowList</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/votable/showObjects</code>
     </p></dd>
 
 <dt>Transmit Row</dt>
@@ -3696,8 +3675,6 @@ unless you are a tool developer you can probably ignore these.
     option.
     </p>
     <p>SAMP MType: <code>table.highlight.row</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/votable/highlightObject</code>
     </p></dd>
 
 <dt>Transmit Coordinates</dt>
@@ -3713,8 +3690,6 @@ unless you are a tool developer you can probably ignore these.
     must be selected for this to work.
     </p>
     <p>SAMP MType: <code>coord.pointAt.sky</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/sky/pointAtCoords</code>
     </p></dd>
 
 <dt>Transmit Image</dt>
@@ -3734,8 +3709,6 @@ unless you are a tool developer you can probably ignore these.
     and to send it to a suitable image viewer or viewers.
     </p>
     <p>SAMP MType: <code>image.load.fits</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/fits/image/loadFromURL</code>
     </p></dd>
 
 <dt>Transmit Spectrum</dt>
@@ -3745,8 +3718,6 @@ unless you are a tool developer you can probably ignore these.
     and to send it to a suitable spectrum viewer or viewers.
     </p>
     <p>SAMP MType: <code>spectrum.load.ssa-generic</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/spectrum/loadFromURL</code>
     </p></dd>
 
 <dt>Transmit Resource List</dt>
@@ -3754,7 +3725,6 @@ unless you are a tool developer you can probably ignore these.
     present in most of the Virtual Observatory windows allows
     you to send lists of VO registry resource identifiers to other
     applications which can make use of them.
-    Note this only works in SAMP mode, not for PLASTIC.
     </p>
     <p>SAMP MTypes: <code>voresource.loadlist.cone</code>,
                     <code>voresource.loadlist.siap</code>,
@@ -3769,8 +3739,8 @@ unless you are a tool developer you can probably ignore these.
 <subhead><title>Messages Received</title></subhead>
 
 <p>This section describes the messages which TOPCAT will respond to 
-when it receives them from other applications via the SAMP/PLASTIC hub.
-The SAMP MTypes and PLASTIC message IDs are listed along with the descriptions;
+when it receives them from other applications via the SAMP hub.
+The SAMP MTypes are listed along with the descriptions;
 unless you are a tool developer you can probably ignore these.
 
 <dl>
@@ -3784,10 +3754,6 @@ unless you are a tool developer you can probably ignore these.
        <code>table.load.fits</code>,
        <code>table.load.cdf</code> or
        <code>table.load.stil</code>
-    </p>
-    <p>PLASTIC Message ID:
-       <code>ivo://votech.org/votable/load</code> or
-       <code>ivo://votech.org/votable/loadFromURL</code>
     </p>
     <p>Note the non-standard MType <code>table.load.stil</code> is
     supported for loading tables with SAMP.  This is like the other
@@ -3818,8 +3784,6 @@ unless you are a tool developer you can probably ignore these.
     treated may be made available in future versions.
     </p>
     <p>SAMP MType: <code>table.select.rowList</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/votable/showObjects</code>
     </p></dd>
 
 <dt>Highlight Row</dt>
@@ -3832,8 +3796,6 @@ unless you are a tool developer you can probably ignore these.
     in the <ref id="ActivationQueryWindow">Activation Window</ref>.
     </p>
     <p>SAMP MType: <code>table.highlight.row</code>
-    </p>
-    <p>PLASTIC Message ID: <code>ivo://votech.org/votable/highlightObject</code>
     </p></dd>
 
 <dt>Load Resource Identifiers</dt>
@@ -3885,15 +3847,6 @@ For SAMP these are:
 <li><code>samp.hub.event.metadata</code></li>
 <li><code>samp.hub.event.subscriptions</code></li>
 <li><code>samp.app.ping</code></li>
-</ul>
-and for PLASTIC:
-<ul>
-<li><code>ivo://votech.org/test/echo</code></li>
-<li><code>ivo://votech.org/info/getName</code></li>
-<li><code>ivo://votech.org/info/getIconURL</code></li>
-<li><code>ivo://votech.org/hub/event/ApplicationRegistered</code></li>
-<li><code>ivo://votech.org/hub/event/ApplicationUnregistered</code></li>
-<li><code>ivo://votech.org/hub/event/HubStopping</code></li>
 </ul>
 </p>
 
@@ -4088,29 +4041,23 @@ The meaning of the flags is as follows:
 
 <dt>-samp</dt>
 <dd><p>Forces TOPCAT to use SAMP for tool interoperability
-    (see <ref id="interop"/>).  SAMP rather than PLASTIC is the
-    default, so this flag has no effect.
-    </p></dd>
-
-<dt>-plastic</dt>
-<dd><p>Forces TOPCAT to use PLASTIC instead of SAMP for tool
-    interoperability (see <ref id="interop"/>).
+    (see <ref id="interop"/>).  SAMP is always used, so this flag has no effect.
     </p></dd>
 
 <dt>-[no]hub</dt>
 <dd><p>The <code>-hub</code> flag causes TOPCAT to run an internal
-    SAMP or PLASTIC hub (SAMP by default), if no hub is already
+    SAMP hub, if no hub is already
     running, and the <code>-nohub</code> flag prevents this from happening.
     The default behaviour, when neither of these flags is given,
     is to start a hub automatically for
-    SAMP but not for PLASTIC.  The hub will terminate when TOPCAT does,
+    SAMP.  The hub will terminate when TOPCAT does,
     or can be shut down manually with the 
     <label>Interop|Stop Internal Hub</label> (&IMG.NO_HUB;) menu item.
     See <ref id="interop"/>.
     </p></dd>
 
 <dt>-exthub</dt>
-<dd><p>Causes TOPCAT to attempt to run an external SAMP or PLASTIC hub,
+<dd><p>Causes TOPCAT to attempt to run an external SAMP hub,
     if no hub
     is already running.  The hub will show up in its own window, and can
     be stopped by closing the window.  The hub will continue to run 
@@ -4121,8 +4068,8 @@ The meaning of the flags is as follows:
     </p></dd>
 
 <dt>-noserv</dt>
-<dd><p>Prevents TOPCAT from running any services.  Currently the services
-    which it may run are SAMP or PLASTIC (see above).
+<dd><p>Prevents TOPCAT from running any services.  Currently the service
+    which it may run is SAMP (see above).
     </p></dd>
 
 <dt>-checkvers</dt>
@@ -5411,7 +5358,7 @@ Here is what the individual items mean:
     for one useful activation action; it corresponds to the
     Activation Window's option <label>Transmit Row</label> to All Listeners - 
     that is it means that any other tools talking to TOPCAT using SAMP 
-    or PLASTIC will be informed about a row activation any time it happens.
+    will be informed about a row activation any time it happens.
     This checkbox will be greyed out if no suitable 
     messaging protocol is in use (see <ref id="interop"/>).
     </p></dd>
@@ -5466,7 +5413,7 @@ of the current status of SAMP communications.
 For a discussion of the whats and whys of SAMP, see
 <ref id="interop"/>.
 <strong>Note</strong> that if not running in SAMP mode
-(e.g. if in PLASTIC or no-server mode) this panel will not appear.
+(e.g. if in no-server mode) this panel will not appear.
 SAMP mode is the default under normal circumstances.
 </p>
 
@@ -5536,7 +5483,7 @@ functions.  They are grouped as follows:
 
     <dt>&IMG.BROADCAST; Broadcast Table</dt>
     <dd><p>Broadcasts the current <label>Apparent Table</label> to any
-        applications registered using the SAMP or PLASTIC protocol.
+        applications registered using the SAMP protocol.
         See <ref id="interop"/>.
         </p></dd>
 
@@ -5649,8 +5596,7 @@ functions.  They are grouped as follows:
     <dt>&IMG.SAMP; <ref id="SampWindow">SAMP Window</ref></dt>
     <dd><p>Displays a window which displays detail about the current
         status, and allows configuration, of SAMP messaging
-        (see <ref id="interop"/>).  Note this button will not be
-        visible if TOPCAT is running in PLASTIC mode.
+        (see <ref id="interop"/>).
         </p></dd>
 
     <dt>&IMG.FUNCTION; <ref id="MethodWindow">Available Functions</ref></dt>
@@ -5728,7 +5674,7 @@ and those common to other windows (described in <ref id="commonMenus"/>).
 
 <dt>&IMG.SEND; Send Table to ...</dt>
 <dd><p>Sends the currently selected table to a selected listening application
-    using SAMP or PLASTIC.  Select the desired recipient application from the
+    using SAMP.  Select the desired recipient application from the
     submenu.</p></dd>
 
 <dt>&IMG.LOG; View Log</dt>
@@ -5897,7 +5843,7 @@ the <label>Joins</label> menu.
 </p>
 
 <p>The <label>Interop</label> menu contains options relevant to 
-tool interoperability (SAMP or PLASTIC).  These items are available
+tool interoperability (SAMP).  These items are available
 elsewhere on the toolbar or <label>File</label> menu.
 </p>
 
@@ -6541,7 +6487,7 @@ can be edited by double-clicking on them in the normal way.
     </p></dd>
 
 <dt>&IMG.BROADCAST; Broadcast Subset</dt>
-<dd><p>Causes the selected subset to be broadcast using SAMP or PLASTIC to other
+<dd><p>Causes the selected subset to be broadcast using SAMP to other
     listening applications.  Any other listening application which is
     displaying the same table is then invited to highlight the selection
     of rows corresonding to the selected subset.
@@ -15043,9 +14989,9 @@ or manually as described in <ref id="axisConfig"/>.
 displayed image for external viewing or analysis.
 As well as options to export as GIF, JPEG, EPS and FITS,
 there is also the option to transmit the FITS image to one or
-all applications listening using the SAMP or PLASTIC tool interoperability 
+all applications listening using the SAMP tool interoperability
 protocol which will receive images.
-In this way you can transmit the image directly to SAMP/PLASTIC-aware
+In this way you can transmit the image directly to SAMP-aware
 image manipulation tools such as GAIA or Aladin.
 See <ref id="interop"/> for more information about tool interoperability.
 </p>
@@ -19333,15 +19279,15 @@ in the control window will indicate the action you have configured.
     the correct column will probably be filled in automatically).
     The <label>Image Viewer</label> selector allows you to choose one 
     of the options in <ref id="imageViewers"/> or, if you are registered
-    with a SAMP or PLASTIC hub, any SAMP/PLASTIC image viewer 
+    with a SAMP hub, any SAMP image viewer
     which is also registered - see <ref id="interop"/>.
     </p></dd>
 
 <dt>View URL as Spectrum</dt>
 <dd><p>This option is suitable if one of the columns in your table
     gives the location (filename or URL) of a spectrum file,
-    and you wish to display the spectra in an external SAMP- or
-    PLASTIC-compatible spectrum viewer, such as
+    and you wish to display the spectra in an external SAMP
+    compatible spectrum viewer, such as
     <webref url="http://www.starlink.ac.uk/splat/">SPLAT</webref> or
     <webref url="http://esavo.esa.int/vospec/">VOSpec</webref>.
     First select the column which contains the 
@@ -19356,7 +19302,7 @@ in the control window will indicate the action you have configured.
     viewer application, but FITS, VOTable and some ASCII table
     variants are usually OK.
     Note that TOPCAT, as well as a suitable spectrum viewer, 
-    must be connected to a running SAMP or PLASTIC hub for this to work
+    must be connected to a running SAMP hub for this to work
     (see <ref id="interop"/>) - there is no internal spectrum viewer.
     </p></dd>
 
@@ -19374,8 +19320,8 @@ in the control window will indicate the action you have configured.
 <dt>Transmit Row</dt>
 <dd><p>This option causes the row number of an activated row
     to be transmitted to one or more other applications using an
-    appropriate SAMP or PLASTIC message.
-    This will only work if TOPCAT is registered with a SAMP/PLASTIC hub, and
+    appropriate SAMP message.
+    This will only work if TOPCAT is registered with a SAMP hub, and
     so are one or more other applications which understand that message,
     and the other application(s) know about the table in question,
     for instance because it has previously been sent to/from TOPCAT.
@@ -19387,9 +19333,9 @@ in the control window will indicate the action you have configured.
 <dt>Transmit Coordinates</dt>
 <dd><p>This option causes the sky position of an activated row 
     to be transmitted to 
-    one or more other applications using an appropriate SAMP or PLASTIC 
+    one or more other applications using an appropriate SAMP
     message.
-    This will only work if TOPCAT is registered with a SAMP/PLASTIC hub, and
+    This will only work if TOPCAT is registered with a SAMP hub, and
     so are one or more other applications which understand that message.
     An example might be a sky viewing application such as Aladin which 
     can point to a particular region of sky whenever you activate a point.

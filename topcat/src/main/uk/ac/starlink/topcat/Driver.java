@@ -21,8 +21,6 @@ import org.astrogrid.samp.Response;
 import org.astrogrid.samp.client.DefaultClientProfile;
 import org.astrogrid.samp.client.SampException;
 import org.astrogrid.samp.httpd.UtilServer;
-import uk.ac.starlink.plastic.PlasticHub;
-import uk.ac.starlink.plastic.PlasticUtils;
 import uk.ac.starlink.table.DefaultValueInfo;
 import uk.ac.starlink.table.DescribedValue;
 import uk.ac.starlink.table.ValueInfo;
@@ -229,7 +227,7 @@ public class Driver {
               pre + " [-help] [-version]"
             + pad + " [-stilts <stilts-args>|-jsamp <jsamp-args>]"
             + pad + " [-verbose] [-debug] [-demo] [-running] [-memory|-disk]"
-            + pad + " [-[no]hub|-exthub|-noserv] [-samp|-plastic]"
+            + pad + " [-[no]hub|-exthub|-noserv] [-samp]"
             + pad + " [[-f <format>] table ...]";
 
         /* Standalone execution (e.g. System.exit() may be called). */
@@ -318,15 +316,6 @@ public class Driver {
                 it.remove();
                 interopServe = true;
                 ControlWindow.interopType_ = "samp";
-            }
-            else if ( arg.equals( "-plastic" ) ) {
-                it.remove();
-                interopServe = true;
-                ControlWindow.interopType_ = "plastic";
-            }
-            else if ( arg.equals( "-noplastic" ) ) { // deprecated
-                it.remove();
-                interopServe = false;
             }
             else if ( arg.startsWith( "-noserv" ) ) {
                 it.remove();
@@ -654,8 +643,6 @@ public class Driver {
            .append( p2 + "-disk          use disk backing store for "
                                          + "large tables" ) 
            .append( p2 + "-samp          use SAMP for tool interoperability" )
-           .append( p2 + "-plastic       use PLASTIC for "
-                                         + "tool interoperability" )
            .append( p2 + "-[no]hub       [don't] run internal "
                                          + "SAMP/PLASTIC hub" )
            .append( p2 + "-exthub        run external SAMP/PLASTIC hub" )
