@@ -1,6 +1,5 @@
 package uk.ac.starlink.topcat;
 
-import edu.jhu.pha.sdss.fits.imageio.FITSReaderSpi;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,11 +32,6 @@ import uk.ac.starlink.util.DataSource;
 public class ImageWindow extends AuxWindow {
 
     JLabel label_;
-
-    static {
-        IIORegistry.getDefaultInstance()
-                   .registerServiceProvider( new FITSReaderSpi() );
-    }
 
     /**
      * Constructs a new image window.
