@@ -39,11 +39,6 @@ public class Image {
      * @return  short log message
      */
     public static String displayImage( String label, String location ) {
-        if ( TopcatUtils.canSog() ) {
-            return Sog.sog( label, location );
-        }
-        else {
-            return BasicImageDisplay.displayBasicImage( label, location );
-        }
+	return BasicImageDisplay.displayBasicImage( label, location );
     }
 }

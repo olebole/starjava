@@ -437,6 +437,7 @@
       <exclude name="uk/ac/starlink/topcat/interop/SelectivePlasticListModel.java"/>
       <exclude name="uk/ac/starlink/topcat/interop/TopcatTransmitter.java"/>
       <exclude name="uk/ac/starlink/topcat/interop/PlasticImageActivity.java"/>
+      <exclude name="uk/ac/starlink/topcat/func/Sog.java"/>
    </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -503,10 +504,13 @@
              failonerror="true"
              public="true"
              destdir="${build.javadocs}"
-             sourcepath="${java.dir}"
-             packagenames="uk.ac.starlink.topcat.func"
              classpathref="classpath"
-             source="${source.version}"/>
+             source="${source.version}">
+      <fileset dir="${java.dir}/uk/ac/starlink/topcat/func/" defaultexcludes="yes">
+        <include name="*.java"/>
+        <exclude name="Sog.java"/>
+      </fileset>
+    </javadoc>
 
      <antcall target="build_demo"/>
   </target>
@@ -1231,6 +1235,7 @@
 	 <exclude name="uk/ac/starlink/topcat/interop/SelectivePlasticListModel.java"/>
 	 <exclude name="uk/ac/starlink/topcat/interop/TopcatTransmitter.java"/>
 	 <exclude name="uk/ac/starlink/topcat/interop/PlasticImageActivity.java"/>
+	 <exclude name="uk/ac/starlink/topcat/func/Sog.java"/>
       </fileset>
 
       <!-- Link to the full Java API at SUNs website -->
@@ -1476,10 +1481,13 @@
              failonerror="true"
              public="true"
              additionalparam="-act -o ${build.docs}/activation-javadocs.xml" 
-             sourcepath="${java.dir}"
-             packagenames="uk.ac.starlink.topcat.func"
              classpathref="classpath"
-             source="${source.version}"/>
+             source="${source.version}">
+      <fileset dir="${java.dir}/uk/ac/starlink/topcat/func/" defaultexcludes="yes">
+        <include name="*.java"/>
+        <exclude name="Sog.java"/>
+      </fileset>
+    </javadoc>
     <javadoc doclet="uk.ac.starlink.topcat.doc.SummaryXmlDoclet"
              docletpathref="docs-classpath"
              failonerror="true"
@@ -1494,11 +1502,13 @@
              failonerror="true"
              public="true"
              additionalparam="-act -headonly -o ${build.docs}/activation-classes-javadocs.xml"
-             sourcepath="${java.dir}"
-             packagenames="uk.ac.starlink.topcat.func"
              classpathref="classpath"
-             source="${source.version}"/>
-
+             source="${source.version}">
+      <fileset dir="${java.dir}/uk/ac/starlink/topcat/func/" defaultexcludes="yes">
+        <include name="*.java"/>
+        <exclude name="Sog.java"/>
+      </fileset>
+    </javadoc>
     <!-- Construct topcat usage message in XML. -->
     <property name="topcat.usage" value="${build.docs}/topcat.usage"/>
     <echo message="&lt;![CDATA[" file="${topcat.usage}" append="no"/>

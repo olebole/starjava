@@ -19392,23 +19392,8 @@ described in <ref id="activationJel"/>, to invoke your own.
 then activating a row will display an image in an image viewer.
 </p>
 
-<p>The default image viewer is 
-<webref plaintextref="yes" url="http://www.starlink.ac.uk/sog/">SoG</webref>,
-an astronomical image viewer based on JSky, which offers 
-colourmap manipulation, image zooming, graphics overlays, and other features.
-For this to work JAI, otherwise known as
-<webref plaintextref="yes" url="http://java.sun.com/products/java-media/jai/"
-        >Java Advanced Imaging</webref> must be installed.
-JAI is a free component available from Sun, but not a part of the Java 2
-Standard Edition by default.  In operation, SoG looks like this:
-</p>
-
-<figure>
-<caption><px>SoG Image Viewer</px></caption>
-<figureimage src="&FIG.SoG;"/>
-</figure>
-
-<p>If JAI or the SoG classes themselves are absent, a fallback viewer
+<p><em>On Debian, the default image viewer (SoG) is not available
+and the fallback viewer is used,</em>
 which just displays the given image in a basic graphics window 
 with no manipulation facilities is used.
 The fallback image viewer looks like this:
