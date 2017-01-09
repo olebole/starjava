@@ -87,18 +87,10 @@ public class NodeUtil {
      */
     public static boolean hasJAI() {
         if ( hasJAI_ == null ) {
-            try {
-                /* Use this class because it's lightweight and won't cause a
-                 * whole cascade of other classes to be loaded. */
-                new javax.media.jai.util.CaselessStringKey( "dummy" );
-                hasJAI_ = Boolean.TRUE;
+	    hasJAI_ = Boolean.FALSE;
+	    logger.warning(
+			   "JAI extension not present - no image display" );
             }
-            catch ( NoClassDefFoundError e ) {
-                hasJAI_ = Boolean.FALSE;
-                logger.warning(
-                    "JAI extension not present - no image display" );
-            }
-        }
         return hasJAI_.booleanValue();
     }
 
