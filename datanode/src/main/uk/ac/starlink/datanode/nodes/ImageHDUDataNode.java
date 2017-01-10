@@ -16,11 +16,8 @@ import uk.ac.starlink.array.BridgeNDArray;
 import uk.ac.starlink.array.MouldArrayImpl;
 import uk.ac.starlink.array.NDArray;
 import uk.ac.starlink.array.NDShape;
-import uk.ac.starlink.fits.FitsArrayBuilder;
 import uk.ac.starlink.fits.FitsConstants;
 import uk.ac.starlink.fits.MappedFile;
-import uk.ac.starlink.ndx.DefaultMutableNdx;
-import uk.ac.starlink.ndx.Ndx;
 
 /**
  * An implementation of the {@link DataNode} interface for
@@ -191,41 +188,11 @@ public class ImageHDUDataNode extends HDUDataNode {
     }
 
     public boolean hasDataObject( DataType dtype ) {
-        if ( dtype == DataType.NDX ) {
-            return shape != null;
-        }
-        else {
             return super.hasDataObject( dtype );
-        }
     }
 
     public Object getDataObject( DataType dtype ) throws DataObjectException {
-        if ( hasDataObject( dtype ) && dtype == DataType.NDX ) {
-            try {
-                return getNdx();
-            }
-            catch ( IOException e ) {
-                throw new DataObjectException( e );
-            }
-        }
-        else {
             return super.getDataObject( dtype );
-        }
     }
 
-    private synchronized Ndx getNdx() throws IOException {
-        if ( ndx == null ) {
-            ArrayDataInput data = hdudata.getArrayData();
-            NDArray nda = FitsArrayBuilder.getInstance()
-                         .makeNDArray( data, AccessMode.READ );
-            if ( ! nda.getShape().equals( shape ) ) {
-                nda = new BridgeNDArray( new MouldArrayImpl( nda, shape ) );
-            }
-            ndx = new DefaultMutableNdx( nda );
-            if ( wcs != null ) {
-                ((DefaultMutableNdx) ndx).setWCS( wcs );
-            }
-        }
-        return ndx;
-    }
 }

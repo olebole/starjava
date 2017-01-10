@@ -2,8 +2,6 @@ package uk.ac.starlink.datanode.factory;
 
 import uk.ac.starlink.datanode.nodes.DataNode;
 import uk.ac.starlink.datanode.nodes.DocumentDataNode;
-import uk.ac.starlink.datanode.nodes.HDXDataNode;
-import uk.ac.starlink.datanode.nodes.NdxDataNode;
 import uk.ac.starlink.datanode.nodes.NoSuchDataException;
 import uk.ac.starlink.datanode.nodes.VOTableDataNode;
 import uk.ac.starlink.datanode.nodes.XMLDocument;
@@ -43,13 +41,7 @@ public class DocumentDataNodeBuilder extends DataNodeBuilder {
 
         /* If this suggests that it is a DataNode that we know about, 
          * pass it to the appropriate constructor. */
-        if ( elname.equals( "hdx" ) ) {
-            return new HDXDataNode( xdoc );
-        }
-        else if ( elname.equals( "ndx" ) ) {
-            return new NdxDataNode( xdoc );
-        }
-        else if ( elName.equals( "VOTABLE" ) ) {
+        if ( elName.equals( "VOTABLE" ) ) {
             return new VOTableDataNode( xdoc );
         }
 

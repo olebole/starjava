@@ -24,10 +24,7 @@ import uk.ac.starlink.datanode.nodes.FITSStreamDataNode;
 import uk.ac.starlink.datanode.nodes.FileDataNode;
 import uk.ac.starlink.datanode.nodes.FtpDirectoryDataNode;
 import uk.ac.starlink.datanode.nodes.FtpLocation;
-import uk.ac.starlink.datanode.nodes.HDXDataNode;
 import uk.ac.starlink.datanode.nodes.JDBCDataNode;
-import uk.ac.starlink.datanode.nodes.NDArrayDataNode;
-import uk.ac.starlink.datanode.nodes.NdxDataNode;
 import uk.ac.starlink.datanode.nodes.NoSuchDataException;
 import uk.ac.starlink.datanode.nodes.NodeUtil;
 import uk.ac.starlink.datanode.nodes.PlainDataNode;
@@ -55,15 +52,12 @@ import uk.ac.starlink.util.FileDataSource;
  * <li> {@link uk.ac.starlink.datanode.nodes.ARYDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.HDSDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.FITSFileDataNode}
- * <li> {@link uk.ac.starlink.datanode.nodes.NdxDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.VOTableDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.ZipFileDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.TarStreamDataNode}
- * <li> {@link uk.ac.starlink.datanode.nodes.NDArrayDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.FITSStreamDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.JDBCDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.StarTableDataNode}
- * <li> {@link uk.ac.starlink.datanode.nodes.HDXDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.DocumentDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.XMLDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.CompressedDataNode}
@@ -659,15 +653,12 @@ public class DataNodeFactory {
             /* Assemble a list of the names of known DataNode classes. */
             List classNameList = new ArrayList( Arrays.asList( new String[] {
                 FITSFileDataNode.class.getName(),
-                NdxDataNode.class.getName(),
                 VOTableDataNode.class.getName(),
                 ZipFileDataNode.class.getName(),
                 TarStreamDataNode.class.getName(),
-                NDArrayDataNode.class.getName(),
                 FITSStreamDataNode.class.getName(),
                 JDBCDataNode.class.getName(),
                 StarTableDataNode.class.getName(),
-                HDXDataNode.class.getName(),
                 DocumentDataNode.class.getName(),
                 XMLDataNode.class.getName(),
                 VOTableTableDataNode.class.getName(),

@@ -4,8 +4,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 import uk.ac.starlink.datanode.nodes.DataNode;
-import uk.ac.starlink.datanode.nodes.HDXDataNode;
-import uk.ac.starlink.datanode.nodes.NdxDataNode;
 import uk.ac.starlink.datanode.nodes.NoSuchDataException;
 import uk.ac.starlink.datanode.nodes.VOComponentDataNode;
 import uk.ac.starlink.datanode.nodes.XMLDataNode;
@@ -58,13 +56,7 @@ public class XMLDataNodeBuilder extends DataNodeBuilder {
         
         /* If this suggests that it is a DataNode that we know about, 
          * pass it to the appropriate constructor. */
-        if ( elname.equals( "hdx" ) ) {
-            return new HDXDataNode( xsrc );
-        }
-        else if ( elname.equals( "ndx" ) ) {
-            return new NdxDataNode( xsrc );
-        }
-        else if ( elName.equals( "VOTABLE" ) ) {
+        if ( elName.equals( "VOTABLE" ) ) {
             return new VOComponentDataNode( xsrc );
         }
 

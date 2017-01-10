@@ -14,7 +14,6 @@ import uk.ac.starlink.datanode.nodes.DataNode;
 import uk.ac.starlink.datanode.nodes.FITSDataNode;
 import uk.ac.starlink.datanode.nodes.FITSFileDataNode;
 import uk.ac.starlink.datanode.nodes.FileDataNode;
-import uk.ac.starlink.datanode.nodes.NdxDataNode;
 import uk.ac.starlink.datanode.nodes.NodeUtil;
 import uk.ac.starlink.datanode.nodes.NoSuchDataException;
 import uk.ac.starlink.datanode.nodes.TarStreamDataNode;
@@ -102,7 +101,7 @@ public class FileDataNodeBuilder extends DataNodeBuilder {
                     istrm = new BufferedDataInputStream( strm1 );
                     Header hdr = new Header( istrm );
                     if ( hdr.containsKey( "NDX_XML" ) ) {
-                        return new NdxDataNode( file );
+                        return new FITSFileDataNode( file );
                     }
                     else {
                         return new FITSFileDataNode( file );

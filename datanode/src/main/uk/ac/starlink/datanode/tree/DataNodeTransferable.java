@@ -10,7 +10,6 @@ import java.net.MalformedURLException;
 import javax.xml.transform.Source;
 import nom.tam.util.ArrayDataOutput;
 import nom.tam.util.BufferedDataOutputStream;
-import uk.ac.starlink.fits.FitsNdxHandler;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.util.DataSource;
 import uk.ac.starlink.votable.DataFormat;
@@ -18,8 +17,6 @@ import uk.ac.starlink.votable.VOTableWriter;
 import uk.ac.starlink.datanode.nodes.DataNode;
 import uk.ac.starlink.datanode.nodes.DataObjectException;
 import uk.ac.starlink.datanode.nodes.DataType;
-import uk.ac.starlink.hdx.HdxException;
-import uk.ac.starlink.ndx.Ndx;
 import uk.ac.starlink.util.SourceReader;
 
 /**
@@ -46,27 +43,6 @@ public class DataNodeTransferable extends BasicTransferable {
                     (StarTable) node.getDataObject( DataType.TABLE );
                 addDataSource( new VOTableDataSource( table ), 
                                VOTABLE_MIMETYPE );
-            }
-            catch ( DataObjectException e ) {
-                e.printStackTrace();
-            }
-        }
-
-        /* If the node can supply an NDX, add a suitable data source. */
-        if ( node.hasDataObject( DataType.NDX ) ) {
-            try {
-                Ndx ndx = (Ndx) node.getDataObject( DataType.NDX );
-
-                /* If it's persistent we can serialize it to XML. */
-                if ( ndx.isPersistent() ) {
-                    addDataSource( new XmlNdxDataSource( ndx ),
-                                   "application/xml" );
-                }
-
-                /* In any case, we can squirt the whole lot as a FITS file
-                 * with data inline. */
-                addDataSource( new FitsNdxDataSource( ndx ),
-                               "application/fits" );
             }
             catch ( DataObjectException e ) {
                 e.printStackTrace();
@@ -173,87 +149,4 @@ public class DataNodeTransferable extends BasicTransferable {
         }
     }
 
-    /**
-     * DataSource which provides an XML stream representing an NDX.
-     */
-    private static class XmlNdxDataSource extends DataSource {
-
-        final Ndx ndx_;
-
-        XmlNdxDataSource( Ndx ndx ) {
-            ndx_ = ndx;
-        }
-
-        public InputStream getRawInputStream() throws IOException {
-            try {
-                Source xsrc = ndx_.getHdxFacade().getSource( null );
-                return new SourceReader().getXMLStream( xsrc );
-            }
-            catch ( HdxException e ) {
-                throw (IOException) new IOException( e.getMessage() )
-                                   .initCause( e );
-            }
-        }
-
-        public String getName() {
-            return ndx_.hasTitle() ? ndx_.getTitle() : "NDX";
-        }
-
-        public URL getURL() {
-            return null;
-        }
-    }
-
-    /**
-     * DataSource which provides a FITS stream representing an NDX.
-     */
-    private static class FitsNdxDataSource extends DataSource {
-
-        final Ndx ndx_;
- 
-        FitsNdxDataSource( Ndx ndx ) {
-            ndx_ = ndx;
-        }
-
-        public InputStream getRawInputStream() throws IOException {
-            final PipedOutputStream ostrm = new PipedOutputStream();
-            InputStream istrm = new PipedInputStream( ostrm );
-            new Thread() {
-                public void run() {
-                    try {
-                        URL dummyUrl = new URL( "file://localhost/dummy" );
-                        ArrayDataOutput strm =
-                            new BufferedDataOutputStream( ostrm );
-                        FitsNdxHandler.getInstance()
-                                      .outputNdx( strm, dummyUrl, ndx_ );
-                        strm.close();
-                    }
-                    catch ( MalformedURLException e ) {
-                        throw new AssertionError( e );
-                    }
-                    catch ( IOException e ) {
-                        // May well catch an exception here if not all
-                        // the output is consumed
-                    }
-                    finally {
-                        try {
-                            ostrm.close();
-                        }
-                        catch ( IOException e ) {
-                        }
-                    }
-                }
-            }.start();
-            return istrm;
-        }
-
-        public String getName() {
-            return ndx_.hasTitle() ? ndx_.getTitle() : "NDX";
-        }
-
-        public URL getURL() {
-            return null;
-        }
-    }
-       
 }

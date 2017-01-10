@@ -210,9 +210,6 @@
     <!-- FITS -->
     <pathelement location="${star.jar.dir}/fits/fits.jar"/>
 
-    <!-- NDX -->
-    <pathelement location="${star.jar.dir}/ndx/ndx.jar"/>
-
     <!-- VOTable -->
     <pathelement location="${star.jar.dir}/votable/votable.jar"/>
 
@@ -234,8 +231,6 @@
        location="${star.build.dir}/table/lib/table/table.jar"/>
     <pathelement
        location="${star.build.dir}/tamfits/lib/tamfits/tamfits.jar"/>
-    <pathelement
-       location="${star.build.dir}/ndx/lib/ndx/ndx.jar"/>
     <pathelement
        location="${star.build.dir}/votable/lib/votable/votable.jar"/>
     <pathelement
@@ -408,12 +403,6 @@
                classname="uk.ac.starlink.fits.MappedFile"/>
     <fail message="No FITS available" unless="fits.present"/>
 
-    <!-- Need NDX -->
-    <available property="ndx.present"
-               classpathref="classpath"
-               classname="uk.ac.starlink.ndx.Ndx"/>
-    <fail message="No NDX available" unless="ndx.present"/>
-
     <!-- Need VOTable -->
     <available property="votable.present"
                classpathref="classpath"
@@ -490,6 +479,9 @@
       <exclude name="uk/ac/starlink/datanode/nodes/HDXDataNode.java"/>
       <exclude name="uk/ac/starlink/datanode/nodes/HistoryDataNode.java"/>
       <exclude name="uk/ac/starlink/datanode/nodes/NDFDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/NDArrayDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/NdxDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/tree/NdxNodeChooser.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -585,7 +577,6 @@
          <extension name="TABLE" href="table.jnlp"/>
          <extension name="TAMFITS" href="tamfits.jnlp"/>
          <extension name="FITS" href="fits.jnlp"/>
-         <extension name="NDX" href="ndx.jnlp"/>
          <extension name="VOTABLE" href="votable.jnlp"/>
          <extension name="CONNECT" href="connect.jnlp"/>
          <extension name="ASTROGRID" href="astrogrid.jnlp"/>
@@ -1001,6 +992,9 @@
 	 <exclude name="uk/ac/starlink/datanode/nodes/HDXDataNode.java"/>
 	 <exclude name="uk/ac/starlink/datanode/nodes/HistoryDataNode.java"/>
 	 <exclude name="uk/ac/starlink/datanode/nodes/NDFDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/NDArrayDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/NdxDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/tree/NdxNodeChooser.java"/>
       </fileset>
 
       <!-- Link to the full Java API at SUNs website -->

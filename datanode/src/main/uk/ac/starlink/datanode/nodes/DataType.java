@@ -1,7 +1,6 @@
 package uk.ac.starlink.datanode.nodes;
 
 import uk.ac.starlink.array.NDArray;
-import uk.ac.starlink.ndx.Ndx;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.util.DataSource;
 
@@ -26,12 +25,6 @@ public class DataType {
      */
     public static final DataType TABLE = 
         new DataType( "TABLE", StarTable.class );
-
-    /**
-     * DataType representing a {@link uk.ac.starlink.ndx.Ndx} object.
-     */
-    public static final DataType NDX =
-        new DataType( "NDX", Ndx.class );
 
     /**
      * DataType representing a {@link uk.ac.starlink.util.DataSource} object.
