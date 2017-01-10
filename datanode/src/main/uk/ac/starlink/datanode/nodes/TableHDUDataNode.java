@@ -200,7 +200,7 @@ public class TableHDUDataNode extends HDUDataNode {
             AsciiTable tdata = new AsciiTable( hdr );
             tdata.read( strm );
             tdata.getData();
-            TableHDU thdu = new AsciiTableHDU( hdr, (Data) tdata );
+            TableHDU thdu = new AsciiTableHDU( hdr, tdata );
             return new FitsStarTable( thdu );
         }
 
