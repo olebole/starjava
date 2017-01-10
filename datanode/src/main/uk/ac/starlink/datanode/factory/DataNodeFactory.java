@@ -40,7 +40,6 @@ import uk.ac.starlink.datanode.nodes.TarStreamDataNode;
 import uk.ac.starlink.datanode.nodes.VOComponentDataNode;
 import uk.ac.starlink.datanode.nodes.VOTableDataNode;
 import uk.ac.starlink.datanode.nodes.VOTableTableDataNode;
-import uk.ac.starlink.datanode.nodes.WCSDataNode;
 import uk.ac.starlink.datanode.nodes.XMLDataNode;
 import uk.ac.starlink.datanode.nodes.ZipFileDataNode;
 import uk.ac.starlink.util.DataSource;
@@ -665,7 +664,6 @@ public class DataNodeFactory {
             /* Assemble a list of the names of known DataNode classes. */
             List classNameList = new ArrayList( Arrays.asList( new String[] {
                 NDFDataNode.class.getName(),
-                WCSDataNode.class.getName(),
                 ARYDataNode.class.getName(),
                 HistoryDataNode.class.getName(),
                 HDSDataNode.class.getName(),
@@ -699,9 +697,6 @@ public class DataNodeFactory {
                 classNameList.remove( ARYDataNode.class.getName() );
                 classNameList.remove( HistoryDataNode.class.getName() );
                 classNameList.remove( HDSDataNode.class.getName() );
-            }
-            if ( ! NodeUtil.hasAST() ) {
-                classNameList.remove( WCSDataNode.class.getName() );
             }
 
             /* Now construct a corresponding list of the classes themselves.

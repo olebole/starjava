@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-import uk.ac.starlink.ast.AstPackage;
 import uk.ac.starlink.datanode.factory.CreationState;
 import uk.ac.starlink.hds.HDSPackage;
 
@@ -75,7 +74,7 @@ public class NodeUtil {
      */
     public static boolean hasAST() {
         if ( hasAST_ == null ) {
-            hasAST_ = Boolean.valueOf( AstPackage.isAvailable() );
+            hasAST_ = Boolean.valueOf( false );
         }
         return hasAST_.booleanValue();
     }

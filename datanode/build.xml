@@ -204,9 +204,6 @@
     <!-- Table -->
     <pathelement location="${star.jar.dir}/table/table.jar"/>
  
-    <!-- JNIAST -->
-    <pathelement location="${star.jar.dir}/jniast/jniast.jar"/>
- 
     <!-- TAMFITS -->
     <pathelement location="${star.jar.dir}/tamfits/tamfits.jar"/>
 
@@ -241,8 +238,6 @@
        location="${star.build.dir}/array/lib/array/array.jar"/>
     <pathelement
        location="${star.build.dir}/table/lib/table/table.jar"/>
-    <pathelement
-       location="${star.build.dir}/jniast/lib/jniast/jniast.jar"/>
     <pathelement
        location="${star.build.dir}/tamfits/lib/tamfits/tamfits.jar"/>
     <pathelement
@@ -411,12 +406,6 @@
                classname="uk.ac.starlink.table.StarTable"/>
     <fail message="No Table available" unless="table.present"/>
 
-    <!-- Need JNIAST -->
-    <available property="jniast.present"
-               classpathref="classpath"
-               classname="uk.ac.starlink.ast.Grf"/>
-    <fail message="No JNIAST available" unless="jniast.present"/>
-
     <!-- Need TAMFITS -->
     <available property="tamfits.present"
                classpathref="classpath"
@@ -514,6 +503,11 @@
       <classpath refid="classpath"/>
 
       <include name="**/*.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/WCSDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/WCSChannel.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/FrameDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/viewers/AstTextShower.java"/>
+      <exclude name="uk/ac/starlink/datanode/viewers/AstFITSShower.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -607,7 +601,6 @@
          <extension name="UTIL" href="util.jnlp"/>
          <extension name="ARRAY" href="array.jnlp"/>
          <extension name="TABLE" href="table.jnlp"/>
-         <extension name="JNIAST" href="jniast.jnlp"/>
          <extension name="TAMFITS" href="tamfits.jnlp"/>
          <extension name="FITS" href="fits.jnlp"/>
          <extension name="JNIHDS" href="jnihds.jnlp"/>
@@ -1016,9 +1009,14 @@
 
       <!-- Get a list of directories that name all the potential
        !   java packages -->
-      <packageset dir="${java.dir}" defaultexcludes="yes">
-         <include name="**"/>
-      </packageset>
+      <fileset dir="${java.dir}" defaultexcludes="yes">
+         <include name="**/*.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/WCSDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/WCSChannel.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/FrameDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/viewers/AstTextShower.java"/>
+	 <exclude name="uk/ac/starlink/datanode/viewers/AstFITSShower.java"/>
+      </fileset>
 
       <!-- Link to the full Java API at SUNs website -->
       <link offline="true" href="${javaapi.url}"

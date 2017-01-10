@@ -16,12 +16,6 @@ import uk.ac.starlink.array.BridgeNDArray;
 import uk.ac.starlink.array.MouldArrayImpl;
 import uk.ac.starlink.array.NDArray;
 import uk.ac.starlink.array.NDShape;
-import uk.ac.starlink.ast.AstException;
-import uk.ac.starlink.ast.AstObject;
-import uk.ac.starlink.ast.FitsChan;
-import uk.ac.starlink.ast.Frame;
-import uk.ac.starlink.ast.FrameSet;
-import uk.ac.starlink.ast.SkyFrame;
 import uk.ac.starlink.fits.FitsArrayBuilder;
 import uk.ac.starlink.fits.FitsConstants;
 import uk.ac.starlink.fits.MappedFile;
@@ -45,9 +39,6 @@ public class ImageHDUDataNode extends HDUDataNode {
     private String blank;
     private FITSFileDataNode.ArrayDataMaker hdudata;
     private Number badval;
-    private FrameSet wcs;
-    private String wcsEncoding;
-    private Ndx ndx;
 
     /**
      * Initialises an <code>ImageHDUDataNode</code> from a <code>Header</code> 
@@ -124,41 +115,6 @@ public class ImageHDUDataNode extends HDUDataNode {
                 dataType = null;
         }
 
-        if ( NodeUtil.hasAST() ) {
-            try {
-                final Iterator hdrIt = hdr.iterator();
-                Iterator lineIt = new Iterator() {
-                    public boolean hasNext() {
-                        return hdrIt.hasNext();
-                    }
-                    public Object next() {
-                        return hdrIt.next().toString();
-                    }
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-                };
-                FitsChan chan = new FitsChan( lineIt );
-                wcsEncoding = chan.getEncoding();
-                AstObject aobj = chan.read();
-                if ( aobj != null && aobj instanceof FrameSet ) {
-                    wcs = (FrameSet) aobj;
-                }
-                else {
-                    wcsEncoding = null;
-                    wcs = null;
-                }
-            }
-            catch ( AstException e ) {
-                wcsEncoding = null;
-                wcs = null;
-            }
-        }
-        else {
-            wcsEncoding = null;
-            wcs = null;
-        }
-
         description = "(" + hduType
                     + ( ( shape != null ) 
                          ? ( " " + NDShape.toString( shape.getDims() ) + " " ) 
@@ -179,14 +135,11 @@ public class ImageHDUDataNode extends HDUDataNode {
 
     public boolean allowsChildren() {
         // return false;
-        return wcs != null;
+        return false;
     }
 
     public Iterator getChildIterator() {
         List children = new ArrayList();
-        if ( wcs != null ) {
-            children.add( makeChild( wcs ) );
-        }
         return children.iterator();
     }
 
@@ -203,20 +156,6 @@ public class ImageHDUDataNode extends HDUDataNode {
             dv.addKeyedItem( "Blank value", blank );
         }
 
-        if ( wcs != null ) {
-            dv.addSubHead( "World coordinate system" );
-            dv.addKeyedItem( "Encoding", wcsEncoding );
-            uk.ac.starlink.ast.Frame frm = 
-                wcs.getFrame( FrameSet.AST__CURRENT );
-            dv.addKeyedItem( "Naxes", frm.getNaxes() );
-            if ( frm instanceof SkyFrame ) {
-                SkyFrame sfrm = (SkyFrame) frm;
-                dv.addKeyedItem( "Epoch", sfrm.getEpoch() );
-                dv.addKeyedItem( "Equinox", sfrm.getEquinox() );
-                dv.addKeyedItem( "Projection", sfrm.getProjection() );
-                dv.addKeyedItem( "System", sfrm.getSystem() );
-            }
-        }
     }
 
     public String getDescription() {

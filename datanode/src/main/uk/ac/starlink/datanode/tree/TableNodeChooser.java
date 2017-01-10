@@ -20,7 +20,6 @@ import uk.ac.starlink.datanode.nodes.DataType;
 import uk.ac.starlink.datanode.nodes.NDArrayDataNode;
 import uk.ac.starlink.datanode.nodes.NDFDataNode;
 import uk.ac.starlink.datanode.nodes.NdxDataNode;
-import uk.ac.starlink.datanode.nodes.WCSDataNode;
 
 /**
  * TreeNodeChooser subclass designed to return 
@@ -173,7 +172,6 @@ public class TableNodeChooser extends TreeNodeChooser {
                 CompressedDataNode.class.getName(),
                 NdxDataNode.class.getName(),
                 NDFDataNode.class.getName(),
-                WCSDataNode.class.getName(),
                 HDSDataNode.class.getName(),
                 NDArrayDataNode.class.getName(),
             };
