@@ -15,10 +15,8 @@ import uk.ac.starlink.datanode.factory.DataNodeFactory;
 import uk.ac.starlink.datanode.nodes.CompressedDataNode;
 import uk.ac.starlink.datanode.nodes.DataNode;
 import uk.ac.starlink.datanode.nodes.DataObjectException;
-import uk.ac.starlink.datanode.nodes.HDSDataNode;
 import uk.ac.starlink.datanode.nodes.DataType;
 import uk.ac.starlink.datanode.nodes.NDArrayDataNode;
-import uk.ac.starlink.datanode.nodes.NDFDataNode;
 import uk.ac.starlink.datanode.nodes.NdxDataNode;
 
 /**
@@ -171,8 +169,6 @@ public class TableNodeChooser extends TreeNodeChooser {
             String[] shunned = new String[] {
                 CompressedDataNode.class.getName(),
                 NdxDataNode.class.getName(),
-                NDFDataNode.class.getName(),
-                HDSDataNode.class.getName(),
                 NDArrayDataNode.class.getName(),
             };
             List classes = new ArrayList();

@@ -11,11 +11,9 @@ import nom.tam.fits.Header;
 import nom.tam.util.ArrayDataInput;
 import nom.tam.util.BufferedDataInputStream;
 import uk.ac.starlink.datanode.nodes.DataNode;
-import uk.ac.starlink.datanode.nodes.HDSDataNode;
 import uk.ac.starlink.datanode.nodes.FITSDataNode;
 import uk.ac.starlink.datanode.nodes.FITSFileDataNode;
 import uk.ac.starlink.datanode.nodes.FileDataNode;
-import uk.ac.starlink.datanode.nodes.NDFDataNode;
 import uk.ac.starlink.datanode.nodes.NdxDataNode;
 import uk.ac.starlink.datanode.nodes.NodeUtil;
 import uk.ac.starlink.datanode.nodes.NoSuchDataException;
@@ -23,9 +21,6 @@ import uk.ac.starlink.datanode.nodes.TarStreamDataNode;
 import uk.ac.starlink.datanode.nodes.XMLDocument;
 import uk.ac.starlink.datanode.nodes.ZipArchiveDataNode;
 import uk.ac.starlink.datanode.nodes.ZipFileDataNode;
-import uk.ac.starlink.hds.HDSException;
-import uk.ac.starlink.hds.HDSObject;
-import uk.ac.starlink.hds.HDSReference;
 import uk.ac.starlink.util.Compression;
 import uk.ac.starlink.util.DataSource;
 import uk.ac.starlink.util.FileDataSource;
@@ -126,23 +121,6 @@ public class FileDataNodeBuilder extends DataNodeBuilder {
             /* If it's an HDS file, make it an NDF (if it is one) 
              * or an HDS node. */
             String fname = file.getName();
-            if ( ( fname.endsWith( ".sdf" ) || fname.endsWith( ".SDF" ) ) &&
-                 NodeUtil.hasHDS() && 
-                 HDSDataNode.isMagic( magic ) ) {
-                HDSObject hobj = null;
-                try {
-                    hobj = new HDSReference( file ).getObject( "READ" );
-                    try {
-                        return new NDFDataNode( hobj );
-                    }
-                    catch ( NoSuchDataException e ) {
-                        return new HDSDataNode( hobj );
-                    }
-                }
-                catch ( HDSException e ) {
-                    throw new NoSuchDataException( e );
-                }
-            }
 
             /* Zip/jar file? */
             if ( ZipArchiveDataNode.isMagic( magic ) ) {

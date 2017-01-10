@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 import uk.ac.starlink.datanode.factory.CreationState;
-import uk.ac.starlink.hds.HDSPackage;
 
 /**
  * Miscellaneous utilities.
@@ -61,7 +60,7 @@ public class NodeUtil {
      */
     public static boolean hasHDS() {
         if ( hasHDS_ == null ) {
-            hasHDS_ = Boolean.valueOf( HDSPackage.isAvailable() );
+            hasHDS_ = Boolean.valueOf( false );
         }
         return hasHDS_.booleanValue();
     }

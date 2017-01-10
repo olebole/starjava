@@ -26,10 +26,6 @@ import uk.ac.starlink.array.NDShape;
 import uk.ac.starlink.array.Order;
 import uk.ac.starlink.array.OrderedNDShape;
 import uk.ac.starlink.array.Type;
-import uk.ac.starlink.hds.ArrayStructure;
-import uk.ac.starlink.hds.HDSException;
-import uk.ac.starlink.hds.HDSObject;
-import uk.ac.starlink.hds.HDSType;
 import uk.ac.starlink.table.gui.NumericCellRenderer;
 import uk.ac.starlink.table.gui.StarJTable;
 
@@ -51,16 +47,6 @@ public class ArrayBrowser extends JPanel {
      */
     public ArrayBrowser( NDArray nda ) throws IOException {
         this( makeCellGetter( nda ), nda.getShape() );
-    }
-
-    /**
-     * Constructs an ArrayBrowser from an ArrayStructure.
-     *
-     * @param   ary  the ArrayStructure to browse
-     * @throws  HDSException if there is some trouble reading <tt>ary</tt>
-     */
-    public ArrayBrowser( ArrayStructure ary ) throws HDSException {
-        this( makeCellGetter( ary ), ary.getShape() );
     }
 
     /**
@@ -329,33 +315,6 @@ public class ArrayBrowser extends JPanel {
         return cg;
     }
 
-    private static CellGetter makeCellGetter( ArrayStructure ary )
-            throws HDSException {
-        final HDSObject datobj = ary.getData();
-        final OrderedNDShape dshape =
-            new OrderedNDShape( datobj.datShape(), Order.COLUMN_MAJOR );
-        HDSType htype = ary.getType();
-        final Class clazz = ( htype == null )
-                          ? Object.class 
-                          : getWrapperClass( ary.getType().getJavaType() );
-        CellGetter cg = new CellGetter() {
-            public Object getValueAt( int index ) {
-                try {
-                    long[] pos = dshape.offsetToPosition( (long) index );
-                    HDSObject cellobj = datobj.datCell( pos );
-                    return cellobj.datGet0c();
-                }
-                catch ( HDSException e ) {
-                    e.printStackTrace();
-                    return BAD_CELL;
-                }
-            }
-            public Class getContentClass() {
-                return clazz;
-            }
-        };
-        return cg;
-    }
 
     private static Class getWrapperClass( Type type ) {
         return Array.get( type.newArray( 1 ), 0 ).getClass();

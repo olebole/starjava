@@ -210,12 +210,6 @@
     <!-- FITS -->
     <pathelement location="${star.jar.dir}/fits/fits.jar"/>
 
-    <!-- JNIHDS -->
-    <pathelement location="${star.jar.dir}/jnihds/hds.jar"/>
-
-    <!-- HDS -->
-    <pathelement location="${star.jar.dir}/hds/hds.jar"/>
-
     <!-- NDX -->
     <pathelement location="${star.jar.dir}/ndx/ndx.jar"/>
 
@@ -240,10 +234,6 @@
        location="${star.build.dir}/table/lib/table/table.jar"/>
     <pathelement
        location="${star.build.dir}/tamfits/lib/tamfits/tamfits.jar"/>
-    <pathelement
-       location="${star.build.dir}/jnihds/lib/jnihds/jnihds.jar"/>
-    <pathelement
-       location="${star.build.dir}/hds/lib/hds/hds.jar"/>
     <pathelement
        location="${star.build.dir}/ndx/lib/ndx/ndx.jar"/>
     <pathelement
@@ -418,19 +408,6 @@
                classname="uk.ac.starlink.fits.MappedFile"/>
     <fail message="No FITS available" unless="fits.present"/>
 
-
-    <!-- Need JNIHDS -->
-    <available property="jnihds.present"
-               classpathref="classpath"
-               classname="uk.ac.starlink.hds.HDSObject"/>
-    <fail message="No JNIHDS available" unless="jnihds.present"/>
-
-    <!-- Need HDS -->
-    <available property="hds.present"
-               classpathref="classpath"
-               classname="uk.ac.starlink.hds.ArrayStructure"/>
-    <fail message="No HDS available" unless="hds.present"/>
-
     <!-- Need NDX -->
     <available property="ndx.present"
                classpathref="classpath"
@@ -508,6 +485,11 @@
       <exclude name="uk/ac/starlink/datanode/nodes/FrameDataNode.java"/>
       <exclude name="uk/ac/starlink/datanode/viewers/AstTextShower.java"/>
       <exclude name="uk/ac/starlink/datanode/viewers/AstFITSShower.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/ARYDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/HDSDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/HDXDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/HistoryDataNode.java"/>
+      <exclude name="uk/ac/starlink/datanode/nodes/NDFDataNode.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -603,8 +585,6 @@
          <extension name="TABLE" href="table.jnlp"/>
          <extension name="TAMFITS" href="tamfits.jnlp"/>
          <extension name="FITS" href="fits.jnlp"/>
-         <extension name="JNIHDS" href="jnihds.jnlp"/>
-         <extension name="HDS" href="hds.jnlp"/>
          <extension name="NDX" href="ndx.jnlp"/>
          <extension name="VOTABLE" href="votable.jnlp"/>
          <extension name="CONNECT" href="connect.jnlp"/>
@@ -1016,6 +996,11 @@
 	 <exclude name="uk/ac/starlink/datanode/nodes/FrameDataNode.java"/>
 	 <exclude name="uk/ac/starlink/datanode/viewers/AstTextShower.java"/>
 	 <exclude name="uk/ac/starlink/datanode/viewers/AstFITSShower.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/ARYDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/HDSDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/HDXDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/HistoryDataNode.java"/>
+	 <exclude name="uk/ac/starlink/datanode/nodes/NDFDataNode.java"/>
       </fileset>
 
       <!-- Link to the full Java API at SUNs website -->

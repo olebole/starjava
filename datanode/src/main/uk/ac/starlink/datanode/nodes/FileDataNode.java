@@ -19,8 +19,6 @@ import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import uk.ac.starlink.datanode.viewers.TextViewer;
-import uk.ac.starlink.hds.HDSException;
-import uk.ac.starlink.hds.HDSObject;
 import uk.ac.starlink.util.Compression;
 import uk.ac.starlink.util.DataSource;
 import uk.ac.starlink.util.FileDataSource;
@@ -78,15 +76,6 @@ public class FileDataNode extends DefaultDataNode {
         }
     }
 
-    /**
-     * Initialises a <code>FileDataNode</code> from a top-level HDSObject.
-     *
-     * @param  hobj  an HDSObject at the top of its container file
-     * @throws  NoSuchDataException  if <tt>hobj</tt> is not at top level
-     */
-    public FileDataNode( HDSObject hobj ) throws NoSuchDataException {
-        this( getTopLevelFile( hobj ) );
-    }
 
     public boolean allowsChildren() {
         return file.isDirectory() && file.canRead();
@@ -246,31 +235,4 @@ public class FileDataNode extends DefaultDataNode {
         }
     }
 
-    /**
-     * Gets the container file in which a given HDSObject is the 
-     * top level item.
-     *
-     * @param  hobj  an HDSObject at the top of its container file
-     * @throws  NoSuchDataException  if <tt>hobj</tt> is not at top level
-     */
-    private static File getTopLevelFile( HDSObject hobj )
-            throws NoSuchDataException {
-
-        /* Get the container file name and path. */
-        String[] trace = new String[ 2 ];
-        int level; 
-        try {
-            level = hobj.hdsTrace( trace );
-        }
-        catch ( HDSException e ) {
-            throw new NoSuchDataException( e );
-        }
-
-        /* See if there is a parent. */
-        if ( level > 1 ) {
-            throw new NoSuchDataException( 
-                          "HDSObject is not at the top of container file" );
-        }
-        return new File( trace[ 1 ] );
-    }
 }

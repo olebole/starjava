@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.transform.dom.DOMSource;
 import org.w3c.dom.Node;
-import uk.ac.starlink.datanode.nodes.ARYDataNode;
 import uk.ac.starlink.datanode.nodes.BranchDataNode;
 import uk.ac.starlink.datanode.nodes.CompressedDataNode;
 import uk.ac.starlink.datanode.nodes.DataNode;
@@ -25,12 +24,9 @@ import uk.ac.starlink.datanode.nodes.FITSStreamDataNode;
 import uk.ac.starlink.datanode.nodes.FileDataNode;
 import uk.ac.starlink.datanode.nodes.FtpDirectoryDataNode;
 import uk.ac.starlink.datanode.nodes.FtpLocation;
-import uk.ac.starlink.datanode.nodes.HDSDataNode;
 import uk.ac.starlink.datanode.nodes.HDXDataNode;
-import uk.ac.starlink.datanode.nodes.HistoryDataNode;
 import uk.ac.starlink.datanode.nodes.JDBCDataNode;
 import uk.ac.starlink.datanode.nodes.NDArrayDataNode;
-import uk.ac.starlink.datanode.nodes.NDFDataNode;
 import uk.ac.starlink.datanode.nodes.NdxDataNode;
 import uk.ac.starlink.datanode.nodes.NoSuchDataException;
 import uk.ac.starlink.datanode.nodes.NodeUtil;
@@ -57,7 +53,6 @@ import uk.ac.starlink.util.FileDataSource;
  * <li> {@link uk.ac.starlink.datanode.nodes.NDFDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.WCSDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.ARYDataNode}
- * <li> {@link uk.ac.starlink.datanode.nodes.HistoryDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.HDSDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.FITSFileDataNode}
  * <li> {@link uk.ac.starlink.datanode.nodes.NdxDataNode}
@@ -663,10 +658,6 @@ public class DataNodeFactory {
 
             /* Assemble a list of the names of known DataNode classes. */
             List classNameList = new ArrayList( Arrays.asList( new String[] {
-                NDFDataNode.class.getName(),
-                ARYDataNode.class.getName(),
-                HistoryDataNode.class.getName(),
-                HDSDataNode.class.getName(),
                 FITSFileDataNode.class.getName(),
                 NdxDataNode.class.getName(),
                 VOTableDataNode.class.getName(),
@@ -692,12 +683,6 @@ public class DataNodeFactory {
              * AST subsystems available, which may not be the case if the
              * corresponding native libraries are not present.  Remove classes
              * we know that we will not be able to deal with. */
-            if ( ! NodeUtil.hasHDS() ) {
-                classNameList.remove( NDFDataNode.class.getName() );
-                classNameList.remove( ARYDataNode.class.getName() );
-                classNameList.remove( HistoryDataNode.class.getName() );
-                classNameList.remove( HDSDataNode.class.getName() );
-            }
 
             /* Now construct a corresponding list of the classes themselves.
              * If there's a problem loading any of these, just log it
