@@ -3,9 +3,6 @@ package uk.ac.starlink.array;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URI;
-import uk.ac.starlink.hdx.HdxFacade;
-import uk.ac.starlink.hdx.HdxException;
-import uk.ac.starlink.hdx.HdxResourceType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -159,79 +156,4 @@ public class BridgeNDArray extends DefaultArrayDescription implements NDArray {
         return buf.toString();
     }
 
-    /**
-     * Obtains a {@link uk.ac.starlink.hdx.HdxFacade} which can
-     * represent this object.
-     *
-     * @param hdxType the registered type which indicates which Hdx
-     * type this facade is representing as a DOM element.  This may
-     * not be <code>null</code> nor {@link HdxResourceType#NONE}.
-     */
-    public HdxFacade getHdxFacade( HdxResourceType hdxType ) {
-        return new BridgeNDArrayHdxFacade( hdxType );
-    }
-    
-    protected class BridgeNDArrayHdxFacade
-            extends uk.ac.starlink.hdx.AbstractHdxFacade {
-        /*
-         * Implement the DOMFacade by creating a DOM using
-         * HdxElements, and caching it.
-         * Implement setAttribute by calling setAttribute on the top
-         * element of that cached DOM.
-         *
-         * XXX Is this sufficient?  Can this become out of date?  Are
-         * the attributes purely for information, or should they modify
-         * instance variables of the BridgeNDArray?
-         */
-        private HdxResourceType type;
-        //private Document cachedDoc;
-
-        public BridgeNDArrayHdxFacade( HdxResourceType type ) {
-            if ( type == null
-                || type == HdxResourceType.NONE )
-                throw new IllegalArgumentException
-                        ( "BridgeNDArrayDOMFacade: type is null or NONE" );
-            this.type = type;
-        }
-        
-        public Object synchronizeElement( Element el, Object memento ) 
-                throws HdxException {
-            /*
-             * ignore memento -- this Array can't be changed
-             * (interface NDArray has no mutator methods), so if the
-             * given element has children then it can only be because
-             * we've been here before.
-             */
-            if ( el.hasAttributes() )
-                return null;
-            
-            if ( ! el.getTagName().equals( type.xmlName() ) )
-                // The world has gone mad -- this shouldn't happen
-                throw new HdxException
-                        ( "synchronizeElement given element <"
-                          + el.getTagName()
-                          + ">, not <"
-                          + type.xmlName()
-                          + "> as expected" );
-
-            if ( url != null ) {
-                el.setAttribute( "uri", url.toString() );
-            }
-
-            return null;
-        }
-
-        public Object getObject( Element el ) 
-                throws HdxException {
-            if ( type != HdxResourceType.match( el ) )
-                throw new HdxException
-                        ( "getObject asked to realise bad type "
-                         + el.getTagName() );
-            return BridgeNDArray.this;
-        }
-
-        public HdxResourceType getHdxResourceType() {
-            return type;
-        }
-    }
 }
