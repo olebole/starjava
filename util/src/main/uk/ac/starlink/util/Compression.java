@@ -4,7 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
-import org.apache.tools.bzip2.CBZip2InputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 
 /**
  * Characterises the compression status of a stream, and provides methods
@@ -154,13 +154,7 @@ public abstract class Compression {
      */
     public static final Compression BZIP2 = new Compression( "bzip2" ) {
         public InputStream decompress( InputStream raw ) throws IOException {
-
-            /* Eat the first two bytes. */
-            if ( raw.read() != 'B' || raw.read() != 'Z' ) {
-                throw new IllegalArgumentException( 
-                    "Wrong magic number for bzip2 encoding" );
-            }
-            return new CBZip2InputStream( raw );
+            return new BZip2CompressorInputStream( raw );
         }
     };
 

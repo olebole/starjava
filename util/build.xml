@@ -190,9 +190,11 @@
    !-->
   <path id="installed.classpath">
     <pathelement location="${star.jar.dir}/junit.jar"/>
+    <pathelement location="${star.jar.dir}/commons-compress.jar"/>
   </path>
 
   <path id="jar.classpath">
+    <pathelement location="${dist.lib.pkg}/commons-compress.jar"/>
   </path>
 
   <!-- Generate the local build classpath. This is the most difficult

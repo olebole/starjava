@@ -10,8 +10,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import org.apache.tools.bzip2.CBZip2InputStream;
-import org.apache.tools.bzip2.CBZip2OutputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import uk.ac.starlink.util.TestCase;
 
 public class DataSourceTest extends TestCase {
@@ -193,9 +192,7 @@ public class DataSourceTest extends TestCase {
         private Bzip2DataSource( int introLimit ) throws IOException {
             super( introLimit );
             ByteArrayOutputStream bstrm = new ByteArrayOutputStream();
-            bstrm.write( (byte) 'B' );
-            bstrm.write( (byte) 'Z' );
-            OutputStream zstrm = new CBZip2OutputStream( bstrm );
+            OutputStream zstrm = new BZip2CompressorOutputStream( bstrm );
             InputStream istrm = getPlainStream();
 
             byte[] buf = new byte[ MAXBUF ];
