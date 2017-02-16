@@ -32,12 +32,6 @@
  !-->
 
 <project name="Build file for VOTable" default="build" basedir=".">
-
-  <!-- If either or both of these files exist then any properties
-   !   contained within them will override those defined here.  -->
-  <property file="${user.home}/.stardev.properties"/>
-  <property file=".properties"/>
-
   <!-- Properties will also be set for all environment variables
    !   (PATH becomes "env.PATH"), generally not a good
    !   idea as names are OS dependent -->
@@ -50,13 +44,13 @@
    !-->
 
   <!-- Directory for the Starlink installation (usually /star/java)-->
-  <property name="star.dir" value="${basedir}/../../"/>
+  <property name="star.dir" value="/usr/share/java"/>
 
   <!-- Directory to install into (install target, usually /star/java)-->
   <property name="star.install" value="${star.dir}"/>
 
   <!-- Directory that contains the Starlink jar tree -->
-  <property name="star.jar.dir" value="${star.dir}/lib"/>
+  <property name="star.jar.dir" value="${star.dir}"/>
 
   <!-- Directory that contains the locally built sources (usually
    !   /star/java/source for full distribution) -->
@@ -78,8 +72,8 @@
    !-->
 
   <!-- Define the package name and current versions -->
-  <property name="Name" value="VOTable"/>
-  <property name="name" value="votable"/>
+  <property name="Name" value="Starjava VOTable"/>
+  <property name="name" value="starlink-votable"/>
   <property name="version" value="2.0"/>
 
   <!-- The Java package name -->
@@ -194,14 +188,23 @@
    !   class files in preference to installed ones (an extra user-define
    !   defined CLASSPATH can also be used as needed).
    !-->
-  <extclasspath id="installed.classpath">
+  <path id="installed.classpath">
+    <pathelement location="${star.jar.dir}/starlink-fits.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-table.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-util.jar"/>
+    <pathelement location="${star.jar.dir}/axis-jaxrpc.jar"/>
+    <pathelement location="${star.jar.dir}/axis.jar"/>
+    <pathelement location="${star.jar.dir}/fits.jar"/>
+  </path>
 
-    <!-- {Other packages} -->
-    <pathelement location="${star.jar.dir}/table/table.jar"/>
-    <pathelement location="${star.jar.dir}/util/util.jar"/>
-    <pathelement location="${star.jar.dir}/tamfits/tamfits.jar"/>
-
-  </extclasspath>
+  <path id="jar.classpath">
+    <pathelement location="${dist.lib.pkg}/starlink-fits.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-table.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-util.jar"/>
+    <pathelement location="${dist.lib.pkg}/axis-jaxrpc.jar"/>
+    <pathelement location="${dist.lib.pkg}/fits.jar"/>
+    <pathelement location="${dist.lib.pkg}/axis.jar"/>
+  </path>
 
   <!-- Generate the local build classpath. This is the most difficult
    !   part of handling the classpath. The local classes will be in
@@ -219,13 +222,7 @@
    !   doesn't work as expected add the additional classes/jars to
    !   the extra classpath.
    !-->
-  <extclasspath id="built.jarpath">
-
-    <pathelement location="${star.build.dir}/table/lib/table/table.jar"/>
-    <pathelement location="${star.build.dir}/util/lib/util/util.jar"/>
-    <pathelement location="${star.build.dir}/tamfits/lib/tamfits/tamfits.jar"/>
-
-  </extclasspath>
+  <path id="built.jarpath"/>
 
   <path id="built.classpath">
 
@@ -266,11 +263,13 @@
   <!-- JUnit tests classpath, add tests.dir and tests.etc.dir so that
    !   resources may be located there -->
  <path id="tests-classpath">
+    <pathelement location="${star.jar.dir}/junit.jar"/>
     <pathelement location="${build.classes}"/>
     <pathelement location="${build.tests}"/>
     <pathelement location="${tests.dir}"/>
     <pathelement location="${tests.etc.dir}"/>
     <path refid="classpath"/>
+    <pathelement location="${star.jar.dir}/${name}.jar"/>
   </path>
 
   <!-- Turn this path into a string which is passed to the tests -->
@@ -359,7 +358,8 @@
            destdir="${build.classes}"
            debug="${debug}"
            deprecation="${deprecation}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            optimize="${optimize}">
 
       <classpath refid="classpath"/>
@@ -434,6 +434,10 @@
           description="-> creates the package jar file(s)">
 
     <mkdir dir="${dist.lib.pkg}"/>
+    <manifestclasspath property="jar.class.path"
+                       jarfile="${dist.lib.pkg}/${name}.jar">
+      <classpath refid="jar.classpath" />
+    </manifestclasspath>
     <jar destfile="${dist.lib.pkg}/${name}.jar"
          basedir="${build.classes}">
       <manifest>
@@ -441,13 +445,6 @@
         <attribute name="Class-Path" value="${jar.class.path}"/>
       </manifest>
     </jar>
-
-    <!-- Sign all jar files -->
-    <signjar jar="${dist.lib.pkg}/${name}.jar"
-             alias="${webstart.alias}"
-             keystore="${webstart.keystore}"
-             keypass="${webstart.keypass}"
-             storepass="${webstart.storepass}"/>
 
   </target>
 
@@ -823,7 +820,7 @@
              windowtitle="${Name} API"
              doctitle="${Name}"
              defaultexcludes="yes"
-             source="${source.version}"
+             encoding="cp1252"
              classpathref="classpath">
 
       <!-- Get a list of directories that name all the potential
@@ -905,7 +902,8 @@
     <javac srcdir="${tests.dir}"
            destdir="${build.tests}"
            debug="${debug}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            deprecation="${deprecation}" >
 
       <classpath refid="tests-classpath"/>
