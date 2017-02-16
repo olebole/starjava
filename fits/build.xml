@@ -37,12 +37,6 @@
  !-->
 
 <project name="Build file for FITS" default="build" basedir=".">
-
-  <!-- If either or both of these files exist then any properties
-   !   contained within them will override those defined here.  -->
-  <property file="${user.home}/.stardev.properties"/>
-  <property file=".properties"/>
-
   <!-- Properties will also be set for all environment variables
    !   (PATH becomes "env.PATH"), generally not a good
    !   idea as names are OS dependent -->
@@ -55,13 +49,13 @@
    !-->
 
   <!-- Directory for the Starlink installation (usually /star/java)-->
-  <property name="star.dir" value="${basedir}/../../"/>
+  <property name="star.dir" value="/usr/share/java"/>
 
   <!-- Directory to install into (install target, usually /star/java)-->
   <property name="star.install" value="${star.dir}"/>
 
   <!-- Directory that contains the Starlink jar tree -->
-  <property name="star.jar.dir" value="${star.dir}/lib"/>
+  <property name="star.jar.dir" value="${star.dir}"/>
 
   <!-- Directory that contains the locally built sources (usually
    !   /star/java/source for full distribution) -->
@@ -85,8 +79,8 @@
    !-->
 
   <!-- Define the package name and current versions -->
-  <property name="Name" value="FITS"/>
-  <property name="name" value="fits"/>
+  <property name="Name" value="Starjava FITS"/>
+  <property name="name" value="starlink-fits"/>
   <property name="version" value="0.1"/>
 
   <!-- The Java package name -->
@@ -193,24 +187,20 @@
    !   class files in preference to installed ones (an extra user-define
    !   defined CLASSPATH can also be used as needed). 
    !-->
-  <extclasspath id="installed.classpath">
+  <path id="installed.classpath">
+    <pathelement location="${star.jar.dir}/starlink-array.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-table.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-util.jar"/>
+    <pathelement location="${star.jar.dir}/fits.jar"/>
+    <pathelement location="${star.jar.dir}/junit.jar"/>
+  </path>
 
-    <!-- JUnit -->
-    <pathelement location="${star.jar.dir}/junit/junit.jar"/>
-
-    <!-- TAMFITS -->
-    <pathelement location="${star.jar.dir}/tamfits/tamfits.jar"/>
-
-    <!-- Array -->
-    <pathelement location="${star.jar.dir}/array/array.jar"/>
-
-    <!-- Table -->
-    <pathelement location="${star.jar.dir}/table/table.jar"/>
-
-    <!-- Util -->
-    <pathelement location="${star.jar.dir}/util/util.jar"/>
-
-  </extclasspath>
+  <path id="jar.classpath">
+    <pathelement location="${dist.lib.pkg}/starlink-util.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-array.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-table.jar"/>
+    <pathelement location="${dist.lib.pkg}/fits.jar"/>
+  </path>
 
   <!-- Generate the local build classpath. This is the most difficult
    !   part of handling the classpath. The local classes will be in
@@ -228,15 +218,7 @@
    !   doesn't work as expected add the additional classes/jars to
    !   the extra classpath.
    !-->
-  <extclasspath id="built.jarpath">
-    <pathelement location="${star.build.dir}/junit/lib/junit/junit.jar"/>
-    <pathelement location="${star.build.dir}/tamfits/lib/tamfits/tamfits.jar"/>
-    <pathelement location="${star.build.dir}/array/lib/array/array.jar"/>
-    <pathelement location="${star.build.dir}/ndx/lib/ndx/ndx.jar"/>
-    <pathelement location="${star.build.dir}/jniast/lib/jniast/jniast.jar"/>
-    <pathelement location="${star.build.dir}/table/lib/table/table.jar"/>
-    <pathelement location="${star.build.dir}/util/lib/util/util.jar"/>
-  </extclasspath>
+  <path id="built.jarpath"/>
 
   <path id="built.classpath">
 
@@ -281,6 +263,7 @@
     <pathelement location="${tests.dir}"/>
     <pathelement location="${tests.etc.dir}"/>
     <path refid="classpath"/>
+    <pathelement location="${star.jar.dir}/${name}.jar"/>
   </path>
 
   <!-- Turn this path into a string which is passed to the tests -->
@@ -374,7 +357,8 @@
            destdir="${build.classes}"
            debug="${debug}"
            deprecation="${deprecation}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            optimize="${optimize}">
 
       <classpath refid="classpath"/>
@@ -405,6 +389,10 @@
           description="-> creates the package jar file">
 
     <mkdir dir="${dist.lib.pkg}"/>
+    <manifestclasspath property="jar.class.path"
+                       jarfile="${dist.lib.pkg}/${name}.jar">
+      <classpath refid="jar.classpath" />
+    </manifestclasspath>
     <jar destfile="${dist.lib.pkg}/${name}.jar"
          basedir="${build.classes}">
       <manifest>
@@ -414,13 +402,6 @@
     </jar>
 
     <zip destfile="${dist.lib.pkg}/${name}_src.zip" basedir="${java.dir}"/>
-
-    <!-- Sign all jar files -->
-    <signjar jar="${dist.lib.pkg}/${name}.jar"
-             alias="${webstart.alias}"
-             keystore="${webstart.keystore}"
-             keypass="${webstart.keypass}"
-             storepass="${webstart.storepass}"/>
 
   </target>
 
@@ -802,7 +783,7 @@
              windowtitle="${Name} API"
              doctitle="${Name}"
              defaultexcludes="yes"
-             source="${source.version}"
+             encoding="cp1252"
              classpathref="classpath">
 
       <!-- Get a list of directories that name all the potential
@@ -888,7 +869,8 @@
     <javac srcdir="${tests.dir}"
            destdir="${build.tests}"
            debug="${debug}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            deprecation="${deprecation}" >
       <classpath refid="tests-classpath"/>
       <exclude name="uk/ac/starlink/fits/FitsNdxTest.java"/>
