@@ -293,7 +293,7 @@ public abstract class VOTableFitsTableWriter extends AbstractFitsTableWriter {
             for ( int ic = 0; ic < 80; ic++ ) {
                 cbuf[ ic ] = (char) ( buffer[ pos++ ] & 0xff );
             }
-            HeaderCard card = new HeaderCard( new String( cbuf ) );
+            HeaderCard card = HeaderCard.create( new String( cbuf ) );
             if ( ! isMagic( il, card.getKey(), card.getValue() ) ) {
                 return false;
             }
