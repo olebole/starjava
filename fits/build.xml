@@ -204,12 +204,6 @@
     <!-- Array -->
     <pathelement location="${star.jar.dir}/array/array.jar"/>
 
-    <!-- NDX -->
-    <pathelement location="${star.jar.dir}/ndx/ndx.jar"/>
-
-    <!-- JNIAST -->
-    <pathelement location="${star.jar.dir}/jniast/jniast.jar"/>
-
     <!-- Table -->
     <pathelement location="${star.jar.dir}/table/table.jar"/>
 
@@ -317,18 +311,6 @@
                classname="uk.ac.starlink.array.NDArray"/>
     <fail message="No Array available" unless="array.present"/>
 
-    <!--  Need NDX -->
-    <available property="ndx.present"
-               classpathref="classpath"
-               classname="uk.ac.starlink.ndx.Ndx"/>
-    <fail message="No NDX available" unless="ndx.present"/>
-
-    <!--  Need JNIAST -->
-    <available property="jniast.present"
-               classpathref="classpath"
-               classname="uk.ac.starlink.ast.Grf"/>
-    <fail message="No JNIAST available" unless="jniast.present"/>
-
     <!--  Need Table -->
     <available property="table.present"
                classpathref="classpath"
@@ -400,6 +382,7 @@
       <!-- Exclude any Java files in the source tree that should not be
        !   compiled -->
       <exclude name="**/README*"/>
+      <exclude name="uk/ac/starlink/fits/FitsNdxHandler.java"/>
     </javac>
 
   </target>
@@ -828,6 +811,7 @@
          <include name="**"/>
          <exclude name="**/support/*"/>
          <exclude name="**/testcases/*"/>
+	 <exclude name="uk/ac/starlink/fits/FitsNdxHandler.java"/>
       </packageset>
 
       <!-- Link to the full Java API at SUNs website -->
@@ -907,6 +891,7 @@
            source="${source.version}"
            deprecation="${deprecation}" >
       <classpath refid="tests-classpath"/>
+      <exclude name="uk/ac/starlink/fits/FitsNdxTest.java"/>
     </javac>
   </target>
 
@@ -944,6 +929,7 @@
       <batchtest>
         <fileset dir="${tests.dir}">
           <include name="**/*Test*"/>
+	  <exclude name="uk/ac/starlink/fits/FitsNdxTest.java"/>
         </fileset>
       </batchtest>
 
