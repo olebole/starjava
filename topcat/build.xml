@@ -37,12 +37,6 @@
  !-->
 
 <project name="Build file for TOPCAT" default="build" basedir=".">
-
-  <!-- If either or both of these files exist then any properties
-   !   contained within them will override those defined here.  -->
-  <property file="${user.home}/.stardev.properties"/>
-  <property file=".properties"/>
-
   <!-- Properties will also be set for all environment variables
    !   (PATH becomes "env.PATH"), generally not a good
    !   idea as names are OS dependent -->
@@ -55,13 +49,13 @@
    !-->
 
   <!-- Directory for the Starlink installation (usually /star/java)-->
-  <property name="star.dir" value="${basedir}/../../"/>
+  <property name="star.dir" value="/usr/share/java"/>
 
   <!-- Directory to install into (install target, usually /star/java)-->
   <property name="star.install" value="${star.dir}"/>
 
   <!-- Directory that contains the Starlink jar tree -->
-  <property name="star.jar.dir" value="${star.dir}/lib"/>
+  <property name="star.jar.dir" value="${star.dir}"/>
 
   <!-- Directory that contains the locally built sources (usually
    !   /star/java/source for full distribution) -->
@@ -82,8 +76,8 @@
    !-->
 
   <!-- Define the package name and current versions -->
-  <property name="Name" value="TOPCAT"/>
-  <property name="name" value="topcat"/>
+  <property name="Name" value="Starjava TOPCAT"/>
+  <property name="name" value="starlink-topcat"/>
   <property name="version" value="4.4"/>
 
   <!-- The Java package name -->
@@ -122,6 +116,7 @@
   <!-- Directory containing any third-party jars that should be
    !   distributed (normally these would belong in a proper package)-->
   <property name="src.jars.dir" value="${src.dir}/lib"/>
+  <mkdir dir="${src.jars.dir}"/>
 
   <!-- Directory containing any JNI source code -->
   <property name="src.jni.dir" value="${src.dir}/jni"/>
@@ -210,21 +205,39 @@
    !   class files in preference to installed ones (an extra user-define
    !   defined CLASSPATH can also be used as needed).
    !-->
-  <extclasspath id="installed.classpath">
+  <path id="installed.classpath">
+    <pathelement location="${star.jar.dir}/starlink-table.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-ttools.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-util.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-datanode.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-fits.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-task.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-vo.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-votable.jar"/>
+    <pathelement location="${star.jar.dir}/jhall.jar"/>
+    <pathelement location="${star.jar.dir}/jel.jar"/>
+    <pathelement location="${star.jar.dir}/jsamp.jar"/>
+    <pathelement location="${star.jar.dir}/fits.jar"/>
+    <pathelement location="${star.jar.dir}/cds.moc.jar"/>
+	   <pathelement location="/usr/lib/jvm/default-java/lib/tools.jar"/>
+  </path>
 
-    <!-- Table -->
-    <pathelement location="${star.jar.dir}/table/table.jar"/>
-
-    <!-- TTOOLS -->
-    <pathelement location="${star.jar.dir}/ttools/ttools.jar"/>
-
-    <!-- Help -->
-    <pathelement location="${star.jar.dir}/help/jhall.jar"/>
-
-    <!-- Util -->
-    <pathelement location="${star.jar.dir}/util/util.jar"/>
-
-  </extclasspath>
+  <path id="jar.classpath">
+    <pathelement location="${dist.lib.pkg}/starlink-table.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-ttools.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-util.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-datanode.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-fits.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-task.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-vo.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-votable.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-topcat_demo.jar"/>
+    <pathelement location="${dist.lib.pkg}/jhall.jar"/>
+    <pathelement location="${dist.lib.pkg}/jel.jar"/>
+    <pathelement location="${dist.lib.pkg}/jsamp.jar"/>
+    <pathelement location="${dist.lib.pkg}/fits.jar"/>
+    <pathelement location="${dist.lib.pkg}/cds.moc.jar"/>
+  </path>
 
   <!-- Generate the local build classpath. This is the most difficult
    !   part of handling the classpath. The local classes will be in
@@ -242,12 +255,7 @@
    !   doesn't work as expected add the additional classes/jars to
    !   the extra classpath.
    !-->
-  <extclasspath id="built.jarpath">
-    <pathelement location="${star.build.jar}/util/lib/util/util.jar"/>
-    <pathelement location="${star.build.jar}/table/lib/table/table.jar"/>
-    <pathelement location="${star.build.jar}/ttools/lib/ttools/ttools.jar"/>
-    <pathelement location="${star.build.jar}/help/lib/help/jhall.jar"/>
-  </extclasspath>
+  <path id="built.jarpath"/>
 
   <!-- "Local" third party jars. Normally these will be kept in their
    !   own third party package, but may be kept here temporarily, say
@@ -308,7 +316,10 @@
     <pathelement location="${tests.dir}"/>
     <pathelement location="${tests.etc.dir}"/>
     <pathelement location="${star.jar.dir}/xdoc/xdoc.jar"/>
+    <pathelement location="${build.etc}/demo"/>
     <path refid="classpath"/>
+    <pathelement location="${star.jar.dir}/${name}.jar"/>
+    <pathelement location="${star.jar.dir}/junit.jar"/>
   </path>
 
   <!-- Need installed JNIAST for javadoc fun and games - this seems to do it
@@ -420,7 +431,8 @@
            destdir="${build.classes}"
            debug="${debug}"
            deprecation="${deprecation}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            optimize="${optimize}">
 
       <classpath refid="classpath"/>
@@ -505,7 +517,7 @@
              public="true"
              destdir="${build.javadocs}"
              classpathref="classpath"
-             source="${source.version}">
+             encoding="cp1252">
       <fileset dir="${java.dir}/uk/ac/starlink/topcat/func/" defaultexcludes="yes">
         <include name="*.java"/>
         <exclude name="Sog.java"/>
@@ -666,6 +678,10 @@
           description="-> creates the package jar file(s)">
 
     <mkdir dir="${dist.lib.pkg}"/>
+    <manifestclasspath property="jar.class.path"
+                       jarfile="${dist.lib.pkg}/${name}.jar">
+      <classpath refid="jar.classpath" />
+    </manifestclasspath>
     <jar destfile="${dist.lib.pkg}/${name}.jar">
       <fileset dir="${build.classes}"/>
       <fileset dir="${build.javadocs}"/>
@@ -682,14 +698,6 @@
 
     <jar destfile="${dist.lib.pkg}/${name}_demo.jar"
          basedir="${build.etc}/demo"/>
-
-    <!-- Sign all jar files -->
-    <signjar alias="${webstart.alias}"
-             keystore="${webstart.keystore}"
-             keypass="${webstart.keypass}"
-             storepass="${webstart.storepass}">
-      <fileset dir="${dist.lib}" includes="**/*.jar **/*.zip"/>
-    </signjar>
 
   </target>
 
@@ -1222,7 +1230,7 @@
              windowtitle="${Name} API"
              doctitle="${Name}"
              defaultexcludes="yes"
-             source="${source.version}"
+             encoding="cp1252"
              classpathref="classpath">
 
       <!-- Get a list of directories that name all the potential
@@ -1475,14 +1483,14 @@
              sourcepath="${ttools.java}"
              packagenames="uk.ac.starlink.ttools.func"
              classpathref="classpath"
-             source="${source.version}"/>
+             encoding="cp1252"/>
     <javadoc doclet="uk.ac.starlink.topcat.doc.SummaryXmlDoclet"
              docletpathref="docs-classpath"
              failonerror="true"
              public="true"
              additionalparam="-act -o ${build.docs}/activation-javadocs.xml" 
              classpathref="classpath"
-             source="${source.version}">
+             encoding="cp1252">
       <fileset dir="${java.dir}/uk/ac/starlink/topcat/func/" defaultexcludes="yes">
         <include name="*.java"/>
         <exclude name="Sog.java"/>
@@ -1503,7 +1511,7 @@
              public="true"
              additionalparam="-act -headonly -o ${build.docs}/activation-classes-javadocs.xml"
              classpathref="classpath"
-             source="${source.version}">
+             encoding="cp1252">
       <fileset dir="${java.dir}/uk/ac/starlink/topcat/func/" defaultexcludes="yes">
         <include name="*.java"/>
         <exclude name="Sog.java"/>
@@ -1568,7 +1576,7 @@
    !   =================
    !-->
   <target name="compile-tests"
-          depends="build"
+          depends="build,build_demo"
           if="junit.present">
 
     <mkdir dir="${build.tests}"/>
@@ -1576,7 +1584,8 @@
     <javac srcdir="${tests.dir}"
            destdir="${build.tests}"
            debug="${debug}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            deprecation="${deprecation}" >
 
       <classpath refid="tests-classpath"/>
