@@ -1,8 +1,6 @@
 package uk.ac.starlink.topcat;
 
 import edu.stanford.ejalbert.BrowserLauncher;
-import edu.stanford.ejalbert.exception.BrowserLaunchingInitializingException;
-import edu.stanford.ejalbert.exception.UnsupportedOperatingSystemException;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -58,19 +56,9 @@ public class BrowserHelpAction extends AbstractAction {
      * @param  parent  parent component, may be used for error display
      */
     public static BrowserLauncher createBrowserLauncher( Component parent ) {
-        try {
             BrowserLauncher launcher = new BrowserLauncher();
             launcher.setNewWindowPolicy( false );
             return launcher;
-        }
-        catch ( BrowserLaunchingInitializingException e ) {
-            ErrorDialog.showError( parent, "Browser Error", e );
-            return null;
-        }
-        catch ( UnsupportedOperatingSystemException e ) {
-            ErrorDialog.showError( parent, "Browser Error", e );
-            return null;
-        }
     }
 
     /**

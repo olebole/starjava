@@ -6,8 +6,6 @@
 package uk.ac.starlink.topcat.func;
 
 import edu.stanford.ejalbert.BrowserLauncher;
-import edu.stanford.ejalbert.exception.BrowserLaunchingInitializingException;
-import edu.stanford.ejalbert.exception.UnsupportedOperatingSystemException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -85,28 +83,12 @@ public class Browsers {
      * @return  short log message
      */
     public static String systemBrowser( String url ) {
-        try {
             if ( browserLauncher_ == null ) {
                 browserLauncher_ = new BrowserLauncher();
                 browserLauncher_.setNewWindowPolicy( false );
             }
             browserLauncher_.openURLinBrowser( url );
             return url;
-        }
-        catch ( UnsupportedOperatingSystemException e ) {
-            String msg = e.getMessage();
-            if ( e == null ) {
-                msg = e.toString();
-            }
-            return msg + ": " + url;
-        }
-        catch ( BrowserLaunchingInitializingException e ) {
-            String msg = e.getMessage();
-            if ( e == null ) {
-                msg = e.toString();
-            }
-            return msg + ": " + url;
-        }
     }
 
     /**
