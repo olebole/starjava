@@ -445,6 +445,7 @@
       <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
       <exclude name="uk/ac/starlink/ttools/task/StiltsServer.java"/>
       <exclude name="uk/ac/starlink/ttools/server/*.java"/>
+      <exclude name="uk/ac/starlink/ttools/mode/PlasticMode.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -1073,6 +1074,7 @@
 	 <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
 	 <exclude name="uk/ac/starlink/ttools/task/StiltsServer.java"/>
 	 <exclude name="uk/ac/starlink/ttools/server/*.java"/>
+	 <exclude name="uk/ac/starlink/ttools/mode/PlasticMode.java"/>
       </packageset>
 
       <!-- Link to the full Java API at SUNs website -->

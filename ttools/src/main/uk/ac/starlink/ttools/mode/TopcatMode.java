@@ -21,8 +21,6 @@ import org.astrogrid.samp.hub.Hub;
 import org.astrogrid.samp.hub.HubProfile;
 import org.astrogrid.samp.hub.HubServiceMode;
 import org.astrogrid.samp.xmlrpc.StandardHubProfile;
-import org.votech.plastic.PlasticHubListener;
-import uk.ac.starlink.plastic.PlasticUtils;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.table.StarTableWriter;
 import uk.ac.starlink.table.StoragePolicy;
@@ -67,8 +65,6 @@ public class TopcatMode implements ProcessingMode {
             "<ol>",
             "<li>SAMP using existing hub",
                  " (TOPCAT v3.4+ only, requires SAMP hub to be running)</li>",
-            "<li>PLASTIC using existing hub",
-                 " (requires PLASTIC hub to be running)</li>",
             "<li>SOAP",
                  " (requires TOPCAT to run with somewhat deprecated",
                  " <code>-soap</code> flag,",
@@ -128,18 +124,6 @@ public class TopcatMode implements ProcessingMode {
 
         if ( ! done ) {
             try {
-                logger_.info( "Trying PLASTIC ..." );
-                plasticDisplay( table, policy );
-                logger_.info( "... sent via PLASTIC" );
-                done = true;
-            }
-            catch ( IOException e ) {
-                logger_.info( "... PLASTIC broadcast failed " + e );
-            }
-        }
-
-        if ( ! done ) {
-            try {
                 logger_.info( "Trying SAMP with short-lived internal hub ..." );
                 sampHubDisplay( table );
                 logger_.info( "... sent via SAMP with internal hub" );
@@ -170,20 +154,6 @@ public class TopcatMode implements ProcessingMode {
         }
     }
 
-    /**
-     * Attempts to display a table in a TOPCAT which is registered with
-     * a running PLASTIC hub.
-     *
-     * @param  table  table to display
-     * @param  policy   storage policy
-     */
-    private void plasticDisplay( StarTable table, StoragePolicy policy )
-            throws IOException {
-        PlasticHubListener hub = PlasticUtils.getLocalHub();
-        URI plasticId = hub.registerNoCallBack( "stilts" );
-        PlasticMode.broadcast( table, PlasticMode.MSG_BYURL, hub, plasticId,
-                               policy, "topcat", null );
-    }
 
     /**
      * Attempts to display a table in a TOPCAT which is registered with
@@ -343,7 +313,7 @@ public class TopcatMode implements ProcessingMode {
             try {
                 setStandalone_.invoke( null, new Object[] { Boolean.TRUE } );
                 main_.invoke( null,
-                              new Object[] { new String[] { "-plastic" } } );
+                              new Object[] { new String[] { } } );
                 Object controlWindow =
                     getControlWindow_.invoke( null, new Object[ 0 ] );
                 addTable_.invoke( controlWindow, addTableArgs_ );
