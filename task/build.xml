@@ -32,12 +32,6 @@
  !-->
 
 <project name="Build file for Task" default="build" basedir=".">
-
-  <!-- If either or both of these files exist then any properties
-   !   contained within them will override those defined here.  -->
-  <property file="${user.home}/.stardev.properties"/>
-  <property file=".properties"/>
-
   <!-- Properties will also be set for all environment variables
    !   (PATH becomes "env.PATH"), generally not a good
    !   idea as names are OS dependent -->
@@ -50,13 +44,13 @@
    !-->
 
   <!-- Directory for the Starlink installation (usually /star/java)-->
-  <property name="star.dir" value="${basedir}/../../"/>
+  <property name="star.dir" value="/usr/share/java"/>
 
   <!-- Directory to install into (install target, usually /star/java)-->
   <property name="star.install" value="${star.dir}"/>
 
   <!-- Directory that contains the Starlink jar tree -->
-  <property name="star.jar.dir" value="${star.dir}/lib"/>
+  <property name="star.jar.dir" value="${star.dir}"/>
 
   <!-- Directory that contains the locally built sources (usually
    !   /star/java/source for full distribution) -->
@@ -77,8 +71,8 @@
    !-->
 
   <!-- Define the package name and current versions -->
-  <property name="Name" value="Task"/>
-  <property name="name" value="task"/>
+  <property name="Name" value="Starjava Task"/>
+  <property name="name" value="starlink-task"/>
   <property name="version" value="0.2"/>
 
   <!-- The Java package name -->
@@ -189,9 +183,13 @@
    !   class files in preference to installed ones (an extra user-define
    !   defined CLASSPATH can also be used as needed).
    !-->
-  <extclasspath id="installed.classpath">
+  <path id="installed.classpath">
+    <pathelement location="${star.jar.dir}/starlink-util.jar"/>
+  </path>
 
-  </extclasspath>
+  <path id="jar.classpath">
+    <pathelement location="${dist.lib.pkg}/starlink-util.jar"/>
+  </path>
 
   <!-- Generate the local build classpath. This is the most difficult
    !   part of handling the classpath. The local classes will be in
@@ -209,9 +207,7 @@
    !   doesn't work as expected add the additional classes/jars to
    !   the extra classpath.
    !-->
-  <extclasspath id="built.jarpath">
-
-  </extclasspath>
+  <path id="built.jarpath"/>
 
   <!-- "Local" third party jars. Normally these will be kept in their
    !   own third party package, but may be kept here temporarily, say
@@ -274,6 +270,8 @@
     <pathelement location="${tests.dir}"/>
     <pathelement location="${tests.etc.dir}"/>
     <path refid="classpath"/>
+    <pathelement location="${star.jar.dir}/${name}.jar"/>
+    <pathelement location="${star.jar.dir}/junit.jar"/>
   </path>
 
   <!-- Turn this path into a string which is passed to the tests -->
@@ -344,7 +342,8 @@
            destdir="${build.classes}"
            debug="${debug}"
            deprecation="${deprecation}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            optimize="${optimize}">
 
       <compilerarg value="-Xlint:unchecked"/>
@@ -397,21 +396,17 @@
           description="-> creates the package jar file(s)">
 
     <mkdir dir="${dist.lib.pkg}"/>
+    <manifestclasspath property="jar.class.path"
+                       jarfile="${dist.lib.pkg}/${name}.jar">
+      <classpath refid="jar.classpath" />
+    </manifestclasspath>
     <jar destfile="${dist.lib.pkg}/${name}.jar"
          basedir="${build.classes}">
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
-        <attribute name="Class-Path" value=""/>
+        <attribute name="Class-Path" value="${jar.class.path}"/>
       </manifest>
     </jar>
-
-   
-    <!-- Sign all jar files -->
-    <signjar jar="${dist.lib.pkg}/${name}.jar"
-             alias="${webstart.alias}"
-             keystore="${webstart.keystore}"
-             keypass="${webstart.keypass}"
-             storepass="${webstart.storepass}"/>
 
   </target>
 
@@ -811,7 +806,7 @@
              windowtitle="${Name} API"
              doctitle="${Name}"
              defaultexcludes="yes"
-             source="${source.version}"
+             encoding="cp1252"
              classpathref="classpath">
 
       <!-- Get a list of directories that name all the potential
@@ -892,7 +887,8 @@
     <javac srcdir="${tests.dir}"
            destdir="${build.tests}"
            debug="${debug}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            deprecation="${deprecation}" >
 
       <compilerarg value="-Xlint:unchecked"/>
