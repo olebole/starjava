@@ -33,12 +33,6 @@
  !-->
 
 <project name="Build file for TTOOLS" default="build" basedir=".">
-
-  <!-- If either or both of these files exist then any properties
-   !   contained within them will override those defined here.  -->
-  <property file="${user.home}/.stardev.properties"/>
-  <property file=".properties"/>
-
   <!-- Properties will also be set for all environment variables
    !   (PATH becomes "env.PATH"), generally not a good
    !   idea as names are OS dependent -->
@@ -51,13 +45,13 @@
    !-->
 
   <!-- Directory for the Starlink installation (usually /star/java)-->
-  <property name="star.dir" value="${basedir}/../../"/>
+  <property name="star.dir" value="/usr/share/java"/>
 
   <!-- Directory to install into (install target, usually /star/java)-->
   <property name="star.install" value="${star.dir}"/>
 
   <!-- Directory that contains the Starlink jar tree -->
-  <property name="star.jar.dir" value="${star.dir}/lib"/>
+  <property name="star.jar.dir" value="${star.dir}"/>
 
   <!-- Directory that contains the locally built sources (usually
    !   /star/java/source for full distribution) -->
@@ -78,8 +72,8 @@
    !-->
 
   <!-- Define the package name and current versions -->
-  <property name="Name" value="TTOOLS"/>
-  <property name="name" value="ttools"/>
+  <property name="Name" value="Starjava TTOOLS"/>
+  <property name="name" value="starlink-ttools"/>
   <property name="version" value="3.1"/>
 
   <!-- The Java package name -->
@@ -210,32 +204,61 @@
    !   1.4 is no longer used the extclasspath type can be replaced by a simple
    !   path.
    !-->
-  <extclasspath id="installed.classpath">
+  <path id="installed.classpath">
+    <pathelement location="${star.jar.dir}/starlink-util.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-table.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-fits.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-votable.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-pal.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-registry.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-vo.jar"/>
+    <pathelement location="${star.jar.dir}/starlink-task.jar"/>
+    <pathelement location="${star.jar.dir}/jel.jar"/>
+    <pathelement location="${star.jar.dir}/adql.jar"/>
+    <pathelement location="${star.jar.dir}/jsamp.jar"/>
+    <pathelement location="${star.jar.dir}/fits.jar"/>
+    <pathelement location="${star.jar.dir}/cds.moc.jar"/>
+    <pathelement location="${star.jar.dir}/eag-healpix.jar"/>
+    <pathelement location="${star.jar.dir}/skyview.jar"/>
+    <pathelement location="${star.jar.dir}/itext.jar"/>
+    <pathelement location="${star.jar.dir}/net.sourceforge.jlibeps.jar"/>
+    <pathelement location="${star.jar.dir}/jlatexmath.jar"/>
+    <pathelement location="${star.jar.dir}/jide-oss.jar"/>
+    <pathelement location="${star.jar.dir}/json.jar"/>
+    <pathelement location="${star.jar.dir}/commons-io.jar"/>
+    <pathelement location="/usr/lib/jvm/default-java/lib/tools.jar"/>
+  </path>
 
-    <!-- UTIL -->
-    <pathelement location="${star.jar.dir}/util/util.jar"/>
-
-    <!-- TABLE -->
-    <pathelement location="${star.jar.dir}/table/table.jar"/>
-
-    <!-- FITS -->
-    <pathelement location="${star.jar.dir}/fits/fits.jar"/>
-
-    <!-- VOTABLE -->
-    <pathelement location="${star.jar.dir}/votable/votable.jar"/>
-
-  </extclasspath>
+  <path id="jar.classpath">
+    <pathelement location="${dist.lib.pkg}/starlink-util.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-table.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-fits.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-votable.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-pal.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-registry.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-vo.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-task.jar"/>
+    <pathelement location="${dist.lib.pkg}/jel.jar"/>
+    <pathelement location="${dist.lib.pkg}/adql.jar"/>
+    <pathelement location="${dist.lib.pkg}/jsamp.jar"/>
+    <pathelement location="${dist.lib.pkg}/fits.jar"/>
+    <pathelement location="${dist.lib.pkg}/cds.moc.jar"/>
+    <pathelement location="${dist.lib.pkg}/eag-healpix.jar"/>
+    <pathelement location="${dist.lib.pkg}/skyview.jar"/>
+    <pathelement location="${dist.lib.pkg}/itext.jar"/>
+    <pathelement location="${dist.lib.pkg}/net.sourceforge.jlibeps.jar"/>
+    <pathelement location="${dist.lib.pkg}/jlatexmath.jar"/>
+    <pathelement location="${dist.lib.pkg}/jide-oss.jar"/>
+    <pathelement location="${dist.lib.pkg}/json.jar"/>
+    <pathelement location="${dist.lib.pkg}/commons-io.jar"/>
+  </path>
 
   <!-- Local build system jar files.
    !
    !   Name all the jar files of other packages that we depend on, which have
    !   not been installed (should be same packages as in installed.classpath).
    !-->
-  <extclasspath id="built.jarpath">
-
-    <pathelement location="${star.build.dir}/util/lib/util/util.jar"/>
-    <pathelement location="${star.build.dir}/table/lib/table/table.jar"/>
-  </extclasspath>
+  <path id="built.jarpath"/>
 
   <!-- Find all local third party jars files.
    !
@@ -244,6 +267,7 @@
    !   cannot be addressed. They are installed with the package jar files and
    !   should be entered into the main jar file manifest.
    !-->
+  <mkdir dir="${src.jars.dir}"/>
   <path id="package.jars">
      <fileset dir="${src.jars.dir}">
         <include name="*.jar"/>
@@ -323,13 +347,16 @@
    !   located there. The full classpath is also used.
    !-->
  <path id="tests-classpath">
+    <pathelement location="${star.jar.dir}/junit.jar"/>
+    <pathelement location="${star.jar.dir}/healpix.jar"/>
+    <pathelement location="${star.jar.dir}/jython.jar"/>
     <pathelement location="${build.classes}"/>
     <pathelement location="${build.tests}"/>
     <pathelement location="${tests.dir}"/>
     <pathelement location="${tests.etc.dir}"/>
     <pathelement location="${build.etc}"/>
-    <fileset dir="src/testlib" includes="*.jar"/>
     <path refid="classpath"/>
+    <pathelement location="${star.jar.dir}/${name}.jar"/>
   </path>
 
   <!-- Turn this path into a string which is passed to the tests -->
@@ -434,7 +461,8 @@
            destdir="${build.classes}"
            debug="${debug}"
            deprecation="${deprecation}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            optimize="${optimize}">
 
       <classpath refid="classpath"/>
@@ -498,7 +526,7 @@
              sourcepath="${java.dir}"
              packagenames="uk.ac.starlink.ttools.func"
              classpathref="classpath"
-             source="${source.version}"/>
+             encoding="cp1252"/>
 
     <!-- Write and compile JyStilts module source code. -->
     <echo message="Generating stilts.py"/>
@@ -522,7 +550,7 @@
           logerror="yes">
       <classpath refid="classpath"/>
       <sysproperty key="java.awt.headless" value="true"/>
-      <arg value="${src.jars.dir}/jlatexmath.jar"/>
+      <arg value="${star.jar.dir}/jlatexmath.jar"/>
     </java>
   </target>
 
@@ -581,9 +609,14 @@
 
     <!-- Create the library jar file, ttools.jar. -->
     <mkdir dir="${dist.lib.pkg}"/>
+    <manifestclasspath property="jar.class.path"
+                       jarfile="${dist.lib.pkg}/${name}.jar">
+      <classpath refid="jar.classpath" />
+    </manifestclasspath>
     <jar destfile="${dist.lib.pkg}/${name}.jar">
       <fileset dir="${build.classes}"/>
       <fileset dir="${build.javadocs}"/>
+      <fileset dir="${build.etc}"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Class-Path" value="${jar.class.path}"/>
@@ -605,16 +638,6 @@
         <attribute name="Main-Class" value="uk.ac.starlink.ttools.Stilts"/>
       </manifest>
     </jar>
-
-    <!-- Sign all jar files -->
-    <signjar alias="${webstart.alias}"
-             keystore="${webstart.keystore}"
-             keypass="${webstart.keypass}"
-             storepass="${webstart.storepass}">
-      <fileset dir="${dist.lib}"
-               includes="**/*.jar **/*.zip"
-               excludes="**/stilts.jar **/stilts-app.jar **/stilts_jars.zip"/>
-    </signjar>
 
   </target>
 
@@ -1068,14 +1091,14 @@
 
       <!-- Get a list of directories that name all the potential
        !   java packages -->
-      <packageset dir="${java.dir}" defaultexcludes="yes">
-         <include name="**"/>
+      <fileset dir="${java.dir}" defaultexcludes="yes">
+         <include name="**/*.java"/>
          <exclude name="uk/ac/starlink/ttools/build"/>
 	 <exclude name="uk/ac/starlink/ttools/cone/HtmTiling.java"/>
 	 <exclude name="uk/ac/starlink/ttools/task/StiltsServer.java"/>
 	 <exclude name="uk/ac/starlink/ttools/server/*.java"/>
 	 <exclude name="uk/ac/starlink/ttools/mode/PlasticMode.java"/>
-      </packageset>
+      </fileset>
 
       <!-- Link to the full Java API at SUNs website -->
       <link offline="true" href="${javaapi.url}"
@@ -1460,12 +1483,15 @@
     <javac srcdir="${tests.dir}"
            destdir="${build.tests}"
            debug="${debug}"
-           source="${source.version}"
+           encoding="cp1252"
+           includeantruntime="false"
            deprecation="${deprecation}" >
 
       <classpath refid="tests-classpath"/>
 
       <exclude name="uk/ac/starlink/ttools/task/TableMatch1Test.java"/>
+      <exclude name="uk/ac/starlink/ttools/mode/ReflectionTest.java"/>
+      <exclude name="uk/ac/starlink/ttools/DocTest.java"/>
     </javac>
 
   </target>
@@ -1500,6 +1526,8 @@
       <sysproperty key="basedir" value="${basedir}"/>
       <sysproperty key="xdoc.etc" value="${xdoc.etc}"/>
       <sysproperty key="plot2.figdata.dir" value="${plot2.figdata.dir}"/>
+      <sysproperty key="python.cachedir" value="${build.dir}/tmp"/>
+      <sysproperty key="python.path" value="/usr/lib/site-python:/usr/share/jython/Lib"/>
 
       <formatter type="brief" usefile="false"/>
 
@@ -1508,6 +1536,8 @@
           <include name="**/*Test.java"/>
           <exclude name="**/net_tests/*"/>
           <exclude name="uk/ac/starlink/ttools/task/TableMatch1Test.java"/>
+          <exclude name="uk/ac/starlink/ttools/mode/ReflectionTest.java"/>
+          <exclude name="uk/ac/starlink/ttools/DocTest.java"/>
         </fileset>
       </batchtest>
 
