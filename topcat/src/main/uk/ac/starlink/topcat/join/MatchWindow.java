@@ -34,7 +34,6 @@ import uk.ac.starlink.table.join.EllipseSkyMatchEngine;
 import uk.ac.starlink.table.join.ErrorCartesianMatchEngine;
 import uk.ac.starlink.table.join.ErrorSkyMatchEngine;
 import uk.ac.starlink.table.join.EqualsMatchEngine;
-import uk.ac.starlink.table.join.HtmSkyPixellator;
 import uk.ac.starlink.table.join.IsotropicCartesianMatchEngine;
 import uk.ac.starlink.table.join.MatchEngine;
 import uk.ac.starlink.table.join.PixtoolsHealpixSkyPixellator;
@@ -449,12 +448,6 @@ public class MatchWindow extends AuxWindow implements ItemListener {
                 new AnisotropicCartesianMatchEngine( someLengths2 ),
             }
         );
-        MatchEngine htmEngine = new FixedSkyMatchEngine( new HtmSkyPixellator(),
-                                                         someAngle ) {
-            public String toString() {
-                return "HTM";
-            }
-        };
         return new MatchEngine[] {
             new FixedSkyMatchEngine( new PixtoolsHealpixSkyPixellator(),
                                      someAngle ),
@@ -478,7 +471,6 @@ public class MatchWindow extends AuxWindow implements ItemListener {
             new AnisotropicCartesianMatchEngine( someLengths4 ),
             skyPlus1Engine,
             skyPlus2Engine,
-            htmEngine,
         };
     }
 

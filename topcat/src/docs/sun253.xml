@@ -16571,13 +16571,8 @@ of a metric on that space to count as a match.
     </p></dd>
 
 <dt>HTM</dt>
-<dd><p>Performs sky matching in just the same way as the <label>Sky</label>
-    option above, but using a different algorithm (pixelisation of the
-    celestial sphere is performed using the Hierarchical Triangular Mesh
-    rather than the HEALPix scheme).  The results in both cases 
-    should be identical, but HTM is much slower.  Hence, this option
-    is only useful for debugging.  It may be withdrawn in future releases.
-    </p></dd>
+<dd><p><em>This option is not available in the Debian version.</em>
+</p></dd>
 
 </dl>
 </p>
