@@ -908,6 +908,7 @@
 
       <classpath refid="tests-classpath"/>
 
+      <exclude name="uk/ac/starlink/votable/soap/AxisTest.java"/>
     </javac>
 
   </target>
@@ -943,6 +944,7 @@
       <batchtest>
         <fileset dir="${tests.dir}">
           <include name="**/*Test.java"/>
+          <exclude name="uk/ac/starlink/votable/soap/AxisTest.java"/>
         </fileset>
       </batchtest>
 
