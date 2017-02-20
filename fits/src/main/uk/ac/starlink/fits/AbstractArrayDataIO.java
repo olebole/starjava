@@ -314,6 +314,10 @@ public abstract class AbstractArrayDataIO
         return primitiveArrayRecurse( o, nread );
     }
 
+    public long readLArray( Object o ) throws IOException {
+        return readArray( o );
+    }
+
     private int primitiveArrayRecurse( Object o, int nread )
             throws IOException {
         if ( o == null ) {

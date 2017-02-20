@@ -101,6 +101,14 @@ public class MultiMappedFile extends AbstractArrayDataIO
         }
     }
 
+    public void skipAllBytes( long toSkip ) throws IOException {
+	skipBytes((int)toSkip);
+    }
+
+    public void skipAllBytes( int toSkip ) throws IOException {
+       skipBytes(toSkip);
+    }
+
     public int skipBytes( int toSkip ) throws IOException {
         return toInt( skip( (long) toSkip ) );
     };
@@ -191,6 +199,18 @@ public class MultiMappedFile extends AbstractArrayDataIO
                 niobufs_[ ib ].force();
             }
         }
+    }
+
+    public boolean markSupported() {
+        return false;
+    }
+
+    public void reset() throws IOException {
+	throw new IOException( "mark/reset not supported" );
+    }
+
+    public void mark( int i ) {
+        // no action
     }
 
     /**

@@ -106,6 +106,14 @@ public class MappedFile extends AbstractArrayDataIO implements RandomAccess {
         return (long) niobuf_.position();
     }
 
+    public void skipAllBytes( long toSkip ) {
+	skipBytes((int)toSkip);
+    }
+
+    public void skipAllBytes( int toSkip ) {
+	skipBytes(toSkip);
+    }
+
     public int skipBytes( int toSkip ) {
         int nskip = Math.max( toSkip, 0 );
         nskip = Math.min( toSkip, niobuf_.remaining() );
@@ -167,6 +175,18 @@ public class MappedFile extends AbstractArrayDataIO implements RandomAccess {
         if ( niobuf_ instanceof MappedByteBuffer ) {
             ((MappedByteBuffer) niobuf_).force();
         }
+    }
+
+    public boolean markSupported() {
+        return false;
+    }
+
+    public void reset() throws IOException {
+	throw new IOException( "mark/reset not supported" );
+    }
+
+    public void mark( int i ) {
+        // no action
     }
 
     /**

@@ -42,7 +42,7 @@ public class FitsConstants {
     public static final String NDARRAY_PREFIX = "NDA_";
 
     /** Image of end-of-header card. */
-    public static final HeaderCard END_CARD = new HeaderCard( 
+    public static final HeaderCard END_CARD = HeaderCard.create(
         "END                                     " +
         "                                        " );
 
@@ -225,7 +225,7 @@ public class FitsConstants {
                 while ( need > 0 ) {
                     int len = strm.read( buffer, 80 - need, need );
                     if ( len <= 0 ) {
-                        throw new TruncatedFileException();
+                        throw new TruncatedFileException("File truncated");
                     }
                     need -= len;
                 }
@@ -239,7 +239,7 @@ public class FitsConstants {
             }
 
             String cbuf = new String( buffer );
-            HeaderCard fcard = new HeaderCard( cbuf );
+            HeaderCard fcard = HeaderCard.create( cbuf );
             if ( firstCard ) {
                 String key = fcard.getKey();
                 if ( key == null || 
