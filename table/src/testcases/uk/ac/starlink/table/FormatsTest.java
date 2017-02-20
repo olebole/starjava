@@ -206,8 +206,6 @@ public class FormatsTest extends TableCase {
             "colfits-basic",
             "FITS",
             "VOTable",
-            "CDF",
-            "GBIN",
         };
         String[] knownFormats = new String[] {
             "FITS-plus",
@@ -215,8 +213,6 @@ public class FormatsTest extends TableCase {
             "colfits-basic",
             "FITS",
             "VOTable",
-            "CDF",
-            "GBIN",
             "ASCII",
             "CSV",
             "TST",
@@ -277,7 +273,6 @@ public class FormatsTest extends TableCase {
             "html-element",
             "latex",
             "latex-document",
-            "mirage",
         };
         String[] gotFormats = new String[ handlers.size() ];
         for ( int j = 0; j < handlers.size(); j++ ) {

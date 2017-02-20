@@ -313,6 +313,11 @@
                classname="uk.ac.starlink.util.DataSource"/>
     <fail message="No Util available" unless="util.present"/>
 
+    <!-- Need Votable and Fits for some testcases, not essential -->
+    <available property="votable.present"
+               classpathref="classpath"
+               classname="uk.ac.starlink.votable.VOTableWriter"/>
+
     <!-- Need JUnit for testcases, not essential -->
     <available property="junit.present"
                classpathref="classpath"
@@ -927,6 +932,8 @@
 
       <classpath refid="tests-classpath"/>
       <exclude name="uk/ac/starlink/table/join/SkyPixellatorTest.java"/>
+      <exclude name="uk/ac/starlink/table/FormatsTest.java" unless="votable.present"/>
+      <exclude name="uk/ac/starlink/table/storage/StorageTest.java" unless="votable.present"/>
 
     </javac>
 
@@ -965,6 +972,8 @@
         <fileset dir="${tests.dir}">
           <include name="**/*Test*"/>
           <exclude name="uk/ac/starlink/table/join/SkyPixellatorTest.java"/>
+          <exclude name="uk/ac/starlink/table/FormatsTest.java" unless="votable.present"/>
+          <exclude name="uk/ac/starlink/table/storage/StorageTest.java" unless="votable.present"/>
         </fileset>
       </batchtest>
 
