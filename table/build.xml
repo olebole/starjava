@@ -367,6 +367,7 @@
       <exclude name="**/{Retired2.java}"/>
       <exclude name="**/*.html"/>
       <exclude name="**/*.properties*"/>
+      <exclude name="uk/ac/starlink/table/join/HtmSkyPixellator.java"/>
     </javac>
 
     <!-- Copy extra files that should live with packages classes
@@ -916,6 +917,7 @@
            deprecation="${deprecation}" >
 
       <classpath refid="tests-classpath"/>
+      <exclude name="uk/ac/starlink/table/join/SkyPixellatorTest.java"/>
 
     </javac>
 
@@ -953,6 +955,7 @@
       <batchtest>
         <fileset dir="${tests.dir}">
           <include name="**/*Test*"/>
+          <exclude name="uk/ac/starlink/table/join/SkyPixellatorTest.java"/>
         </fileset>
       </batchtest>
 
