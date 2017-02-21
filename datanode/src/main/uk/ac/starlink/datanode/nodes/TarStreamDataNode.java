@@ -13,8 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import org.apache.tools.tar.TarEntry;
-import org.apache.tools.tar.TarInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import uk.ac.starlink.datanode.factory.DataNodeFactory;
 import uk.ac.starlink.util.DataSource;
 import uk.ac.starlink.util.FileDataSource;
@@ -78,13 +78,13 @@ public class TarStreamDataNode extends DefaultDataNode {
         final TarStreamDataNode tsdn = this;
         final DataNodeFactory childMaker = getChildMaker();
         final int lleng = level.length();
-        final TarInputStream tstream;
+        final TarArchiveInputStream tstream;
 
         /* Get an iterator over all the TarEntries at the requested level. */
         final Iterator tentIt;
         try {
             tentIt = getEntriesAtLevel( level ).iterator();
-            tstream = getTarInputStream();
+            tstream = getTarArchiveInputStream();
         }
         catch ( IOException e ) {
             return Collections.singleton( getChildMaker()
@@ -102,7 +102,7 @@ public class TarStreamDataNode extends DefaultDataNode {
             public Object next() {
 
                 /* Get the entry at the requested level. */
-                final TarEntry tent = (TarEntry) tentIt.next();
+                final TarArchiveEntry tent = (TarArchiveEntry) tentIt.next();
                 final String tname = tent.getName();
                 final String subname = tname.substring( lleng );
 
@@ -129,10 +129,10 @@ public class TarStreamDataNode extends DefaultDataNode {
                     DataSource childSrc;
                     try {
 
-                        /* First advance the TarInputStream to the start of the
+                        /* First advance the TarArchiveInputStream to the start of the
                          * current entry. */
                         boolean found = false;
-                        for ( TarEntry ent; 
+                        for ( TarArchiveEntry ent;
                               ( ent = getNextEntry( tstream ) ) != null; ) {
                             if ( ent.getName().equals( tname ) ) {
                                 found = true;
@@ -155,7 +155,7 @@ public class TarStreamDataNode extends DefaultDataNode {
                         }
 
                         /* Make a DataSource out of it which will, for now,
-                         * use the TarInputStream for its raw data. */
+                         * use the TarArchiveInputStream for its raw data. */
                         SwitchDataSource ssrc = 
                             new SwitchDataSource( tent.getSize() ) {
                                 public InputStream getBackupRawInputStream()
@@ -189,7 +189,7 @@ public class TarStreamDataNode extends DefaultDataNode {
                         ssrc.setProvisionalStream( 
                             new FilterInputStream( tstream ) {
                                 public void close() {
-                                    // do not close TarInputStream
+                                    // do not close TarArchiveInputStream
                                 }
                             } );
 
@@ -203,10 +203,10 @@ public class TarStreamDataNode extends DefaultDataNode {
                         ssrc.getIntro();
 
                         /* Now prevent the provisional source from using
-                         * the TarInputStream any more so that subsequent
+                         * the TarArchiveInputStream any more so that subsequent
                          * reads will need to open their own, safe, input
                          * stream if they in fact do need a stream. 
-                         * The TarInputStream is still available for 
+                         * The TarArchiveInputStream is still available for
                          * further use within this child iterator. */
                         ssrc.setProvisionalStream( null );
                         ssrc.close();
@@ -247,7 +247,7 @@ public class TarStreamDataNode extends DefaultDataNode {
      * with a given string.
      *
      * @param   level  the required prefix
-     * @return  a list of all the <tt>TarEntry</tt> objects in this archive 
+     * @return  a list of all the <tt>TarArchiveEntry</tt> objects in this archive
      *          whose names begin with <tt>level</tt>.  They appear in the
      *          list in the same order as they appear in the archive
      */
@@ -259,7 +259,7 @@ public class TarStreamDataNode extends DefaultDataNode {
 
         /* Iterate over all entries in the archive. */
         for ( Iterator entIt = getEntries().iterator(); entIt.hasNext(); ) {
-            TarEntry ent = (TarEntry) entIt.next();
+            TarArchiveEntry ent = (TarArchiveEntry) entIt.next();
             String entname = ent.getName();
 
             /* Select only those entries with the right prefix. */
@@ -290,7 +290,7 @@ public class TarStreamDataNode extends DefaultDataNode {
         impliedDirs.removeAll( realDirs );
         for ( Iterator phIt = impliedDirs.iterator(); phIt.hasNext(); ) {
             String dirname = (String) phIt.next();
-            levEnts.add( new TarEntry( level + dirname ) );
+            levEnts.add( new TarArchiveEntry( level + dirname ) );
         }
 
         /* Return all the entries. */
@@ -298,7 +298,7 @@ public class TarStreamDataNode extends DefaultDataNode {
     }
 
     /**
-     * Returns a list of all the <tt>TarEntry</tt> objects in this archive.
+     * Returns a list of all the <tt>TarArchiveEntry</tt> objects in this archive.
      *
      * @return  a list of the entries of this archive, in order of their
      *          appearance in the archive
@@ -306,8 +306,8 @@ public class TarStreamDataNode extends DefaultDataNode {
     private synchronized List getEntries() throws IOException {
         if ( entries == null ) {
             entries = new ArrayList();
-            TarInputStream ts = getTarInputStream();
-            for ( TarEntry tent; ( tent = getNextEntry( ts ) ) != null; ) {
+            TarArchiveInputStream ts = getTarArchiveInputStream();
+            for ( TarArchiveEntry tent; ( tent = getNextEntry( ts ) ) != null; ) {
                 entries.add( tent );
             }
             ts.close();
@@ -328,11 +328,11 @@ public class TarStreamDataNode extends DefaultDataNode {
      * @param   reqEnt  the entry for which the stream data is required
      * @return  a stream containing the data in <tt>reqEnt</tt>
      */
-    private InputStream getEntryInputStream( TarEntry reqEnt ) 
+    private InputStream getEntryInputStream( TarArchiveEntry reqEnt )
             throws IOException {
         String reqName = reqEnt.getName();
-        TarInputStream tstream = getTarInputStream();
-        for ( TarEntry ent; ( ent = getNextEntry( tstream ) ) != null; ) {
+        TarArchiveInputStream tstream = getTarArchiveInputStream();
+        for ( TarArchiveEntry ent; ( ent = getNextEntry( tstream ) ) != null; ) {
             if ( ent.getName().equals( reqName ) ) {
                 return tstream;
             }
@@ -342,16 +342,16 @@ public class TarStreamDataNode extends DefaultDataNode {
     }
 
     /**
-     * Returns a new TarInputStream associated with this archive.
+     * Returns a new TarArchiveInputStream associated with this archive.
      *
      * @return  a tar input stream
      */
-    private TarInputStream getTarInputStream() throws IOException {
-        return new TarInputStream( datsrc.getInputStream() );
+    private TarArchiveInputStream getTarArchiveInputStream() throws IOException {
+        return new TarArchiveInputStream( datsrc.getInputStream() );
     }
 
     /**
-     * Reads an entry from a TarInputStream.
+     * Reads an entry from a TarArchiveInputStream.
      * This does much the same as <tt>tstrm.getNextEntry()</tt>, but 
      * does a bit of essential doctoring on the entry name.
      *
@@ -359,9 +359,9 @@ public class TarStreamDataNode extends DefaultDataNode {
      * @return  the next tar entry, or <tt>null</tt> if there is none or if
      *          any I/O error occurred
      */
-    private static TarEntry getNextEntry( TarInputStream tstrm ) {
+    private static TarArchiveEntry getNextEntry( TarArchiveInputStream tstrm ) {
         try {
-            TarEntry tent = tstrm.getNextEntry();
+            TarArchiveEntry tent = (TarArchiveEntry)tstrm.getNextEntry();
             if ( tent != null && 
                  tent.isDirectory() && 
                  ! tent.getName().endsWith( "/" ) ) {

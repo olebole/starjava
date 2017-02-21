@@ -2,7 +2,7 @@ package uk.ac.starlink.datanode.nodes;
 
 import java.io.IOException;
 import java.util.Iterator;
-import org.apache.tools.tar.TarEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 
 public class TarBranchDataNode extends DefaultDataNode {
 
@@ -11,13 +11,13 @@ public class TarBranchDataNode extends DefaultDataNode {
     private String name;
 
     /**
-     * Constructs a TarBranchDataNode from a TarEntry and TarStreamArchive.
+     * Constructs a TarBranchDataNode from a TarArchiveEntry and TarStreamArchive.
      *
      * @param  tarnode  DataNode representing the tar file within which
      *         this entry lives
-     * @param  entry  the TarEntry object represented by this node
+     * @param  entry  the TarArchiveEntry object represented by this node
      */
-    public TarBranchDataNode( TarStreamDataNode tarnode, TarEntry entry ) {
+    public TarBranchDataNode( TarStreamDataNode tarnode, TarArchiveEntry entry ) {
         this.archivenode = tarnode;
         this.path = entry.getName();
         this.name = path.substring( path.substring( 0, path.length() - 1 )
