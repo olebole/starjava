@@ -366,6 +366,14 @@
 
   </target>
 
+  <target name="javacc"
+          depends="prepare, check_packages"
+          unless="runonly.install"
+          description="-> Compiles the adql parser">
+    <javacc javacchome="${star.jar.dir}"
+        target="${java.dir}/net/ivoa/registry/search/ADQLWhere.jj"
+        lookahead="3"/>
+  </target>
 
   <!--
    !   ==============
@@ -378,7 +386,7 @@
    !  copied into place here.
    !-->
   <target name="build"
-          depends="prepare, check_packages"
+          depends="prepare, check_packages, javacc"
           unless="runonly.install"
           description="-> compiles the source code">
 
@@ -711,6 +719,7 @@
     <delete dir="${dist.lib}"/>
     <delete dir="${dist.docs}"/>
     <delete dir="${dist.etc}"/>
+    <delete dir="${java.dir}/net/ivoa/registry/search/" includes="*.java"/>
 
   </target>
 
