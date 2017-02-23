@@ -662,10 +662,10 @@ public class ResourceIcon implements Icon {
                          new Ri1RegistryTableLoadDialog().getIcon() );
         putMap( nameMap, "HELP_TOC",
                          new ImageIcon( JHelp.class
-                            .getResource( "plaf/basic/images/TOCNav.gif" ) ) );
+                            .getResource( "plaf/basic/images/TOCNav.png" ) ) );
         putMap( nameMap, "HELP_SEARCH",
                          new ImageIcon( JHelp.class
-                        .getResource( "plaf/basic/images/SearchNav.gif" ) ) );
+                        .getResource( "plaf/basic/images/SearchNav.png" ) ) );
 
         /* Pull in icons from external packages. */
         Class[] riClazzes = new Class[] {
