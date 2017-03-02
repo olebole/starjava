@@ -238,6 +238,7 @@
     <pathelement location="${dist.lib.pkg}/starlink-registry.jar"/>
     <pathelement location="${dist.lib.pkg}/starlink-vo.jar"/>
     <pathelement location="${dist.lib.pkg}/starlink-task.jar"/>
+    <pathelement location="${dist.lib.pkg}/starlink-topcat.jar"/>
     <pathelement location="${dist.lib.pkg}/jel.jar"/>
     <pathelement location="${dist.lib.pkg}/adql.jar"/>
     <pathelement location="${dist.lib.pkg}/jsamp.jar"/>
@@ -620,6 +621,7 @@
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
         <attribute name="Class-Path" value="${jar.class.path}"/>
+        <attribute name="Main-Class" value="uk.ac.starlink.ttools.Stilts"/>
       </manifest>
     </jar>
 
