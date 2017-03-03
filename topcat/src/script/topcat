@@ -71,12 +71,8 @@ if test -x /usr/bin/sw_vers && /usr/bin/sw_vers | grep -q 'OS.X'; then
    javaArgs0="$javaArgs0 -Dcom.apple.mrj.application.apple.menu.about.name=TOPCAT"
 fi
 
-#  Locate the application jar file. 
-for j in $topcat_jars; do
-   if test -z "$appjar" -a -f "$bindir/$j"; then
-      appjar="$bindir/$j"
-   fi
-done
+#  Locate the application jar file.
+appjar=/usr/share/java/starlink-topcat.jar
 if test ! -f "$appjar"
 then
    echo 1>&2 "Can't find topcat classes in ${bindir} - looked for:$topcat_jars"
