@@ -184,7 +184,7 @@
 
   <!-- Directory containing plot2 example graphics in the TTOOLS package. -->
   <property name="plot2.figdir"
-            value="${star.build.dir}/ttools/src/docs/examp"/>
+            value="/usr/share/doc/stilts-doc/examples"/>
 
   <!-- Add any local ANT tasks that are required (these should be
    !   moved to ANT if useful beyond the needs of this package) -->
@@ -1449,13 +1449,16 @@
                includes="images/*"/>
       <fileset dir="${xdoc.etc}"
                includes="docs.dtd"/>
-      <fileset dir="${gbin.docs}"
-               includes="gbin-stil-*.xdoc"/>
     </copy>
     <copy todir="${build.docs}/figures">
       <fileset dir="${plot2.figdir}"
                includesfile="${plot2.figdir}/plot2-figs.lis"/>
     </copy>
+    <gunzip src="/usr/share/doc/stilts-doc/jel-javadocs.xml.gz"
+            dest="${build.docs}/general-javadocs.xml"/>
+    <replace file="${build.docs}/general-javadocs.xml"
+	     token="id='uk.ac.starlink.ttools.func."
+	     value="id='"/>
 
     <!-- Write a file containing entity definitions for all the image files
      !   that might be referenced in the user document (this file is 
@@ -1476,15 +1479,6 @@
     <!-- Construct XML documentation for the JEL-accessible classes.
      !   This is built using Javadoc, and forms part of the user document. -->
     <javadoc doclet="uk.ac.starlink.topcat.doc.SummaryXmlDoclet"
-             docletpathref="classpath"
-             failonerror="true"
-             public="true"
-             additionalparam="-gen -o ${build.docs}/general-javadocs.xml" 
-             sourcepath="${ttools.java}"
-             packagenames="uk.ac.starlink.ttools.func"
-             classpathref="classpath"
-             encoding="cp1252"/>
-    <javadoc doclet="uk.ac.starlink.topcat.doc.SummaryXmlDoclet"
              docletpathref="docs-classpath"
              failonerror="true"
              public="true"
@@ -1496,15 +1490,6 @@
         <exclude name="Sog.java"/>
       </fileset>
     </javadoc>
-    <javadoc doclet="uk.ac.starlink.topcat.doc.SummaryXmlDoclet"
-             docletpathref="docs-classpath"
-             failonerror="true"
-             public="true"
-             additionalparam="-gen -headonly -o ${build.docs}/general-classes-javadocs.xml"
-             sourcepath="${ttools.java}"
-             packagenames="uk.ac.starlink.ttools.func"
-             classpathref="classpath"
-             source="${source.version}"/>
     <javadoc doclet="uk.ac.starlink.topcat.doc.SummaryXmlDoclet"
              docletpathref="docs-classpath"
              failonerror="true"
@@ -1589,7 +1574,7 @@
            deprecation="${deprecation}" >
 
       <classpath refid="tests-classpath"/>
-
+      <exclude name="uk/ac/starlink/topcat/DocTest.java"/>
     </javac>
 
   </target>
@@ -1629,6 +1614,7 @@
       <batchtest>
         <fileset dir="${tests.dir}">
           <include name="**/*Test*"/>
+          <exclude name="uk/ac/starlink/topcat/DocTest.java"/>
         </fileset>
       </batchtest>
 

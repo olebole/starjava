@@ -8,7 +8,6 @@
   <!-- Define automatically generated text entities. -->
   <!ENTITY general.runtime.method.docs SYSTEM "general-javadocs.xml">
   <!ENTITY activation.runtime.method.docs SYSTEM "activation-javadocs.xml">
-  <!ENTITY general.runtime.class.docs SYSTEM "general-classes-javadocs.xml">
   <!ENTITY activation.runtime.class.docs SYSTEM 
                                          "activation-classes-javadocs.xml">
   <!ENTITY topcat.usage SYSTEM "topcat.usage">
@@ -2999,12 +2998,6 @@ comma-separated arguments in brackets, so
 </verbatim>
 will give you the larger of the values in the columns IMAG and JMAG,
 and so on.
-</p>
-
-<p>The functions are grouped into the following classes:
- 
-&general.runtime.class.docs;
-
 </p>
 
 <p>A listing of the functions in these classes is given in 
