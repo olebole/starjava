@@ -56,11 +56,7 @@ fi
 bindir="`dirname $0`"
 
 #  Locate the application jar file.
-for j in $stilts_jars; do
-   if test -z "$appjar" -a -f "$bindir/$j"; then
-      appjar="$bindir/$j"
-   fi
-done
+appjar=/usr/share/java/starlink-ttools.jar
 if test ! -f "$appjar"
 then
    echo 1>&2 "Can't find stilts classes in ${bindir} - looked for:$stilts_jars"
