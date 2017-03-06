@@ -242,7 +242,7 @@ public class Driver {
         boolean internalHub = false;
         boolean externalHub = false;
         boolean noHub = false;
-        boolean checkVersion = true;
+        boolean checkVersion = false;
         boolean useRunning = false;
         for ( Iterator it = argList.iterator(); it.hasNext(); ) {
             String arg = (String) it.next();
@@ -648,7 +648,6 @@ public class Driver {
            .append( p2 + "-exthub        run external SAMP/PLASTIC hub" )
            .append( p2 + "-noserv        don't run any services"
                                          + " (PLASTIC or SAMP)" )
-           .append( p2 + "-nocheckvers   don't check latest version" )
            .append( p2 + "-stilts <args> run STILTS not TOPCAT" )
            .append( p2 + "-jsamp <args>  run JSAMP not TOPCAT" );
 
