@@ -1,23 +1,19 @@
 <?xml version="1.0"?>
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <xsl:import href="toHTML1.xslt"/>
 
-  <xsl:output method="xml"/>
+  <xsl:output method="html" indent="yes"/>
 
   <xsl:key name="file" use="'true'"
            match="*/docinfo|*/abstract|*/sect|*/subsect|*/subsubsect|*/subsubsubsect"/>
 
   <xsl:template match="sun">
-    <multisection>
-      <xsl:element name="filesection">
-        <xsl:attribute name="file">
-          <xsl:call-template name="getFile"/>
-        </xsl:attribute>
-        <xsl:attribute name="method">
-          <xsl:text>html</xsl:text>
-        </xsl:attribute>
+      <xsl:variable name="filename">
+	<xsl:call-template name="getFile"/>
+      </xsl:variable>
+      <xsl:result-document method="html" indent="yes" href="{$filename}">
         <html>
           <xsl:text>&#x0a;</xsl:text>
           <head>
@@ -35,19 +31,15 @@
             <xsl:call-template name="pageFooter"/>
           </body>
         </html>
-      </xsl:element>
+      </xsl:result-document>
       <xsl:apply-templates select="docbody"/>
-    </multisection>
   </xsl:template>
 
   <xsl:template match="abstract|sect|subsect|subsubsect|subsubsubsect">
-    <xsl:text>&#x0a;</xsl:text>
-    <hr/>
-    <xsl:text>&#x0a;</xsl:text>
-    <xsl:element name="filesection">
-      <xsl:attribute name="file">
-        <xsl:call-template name="getFile"/>
-      </xsl:attribute>
+    <xsl:variable name="filename">
+      <xsl:call-template name="getFile"/>
+    </xsl:variable>
+    <xsl:result-document method="html" indent="yes" href="{$filename}">
       <html>
         <xsl:text>&#x0a;</xsl:text>
         <head>
@@ -77,7 +69,7 @@
           <xsl:call-template name="pageFooter"/>
         </body>
       </html>
-    </xsl:element>
+    </xsl:result-document>
     <xsl:apply-templates select="sect|subsect|subsubsect|subsubsubsect"/>
   </xsl:template>
 
