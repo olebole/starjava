@@ -1307,6 +1307,13 @@
       <param name="COVERIMAGE" expression="${coverimage}"/>
       <param name="CSS_HREF" expression="sun-style.css"/>
     </xslt>
+    <java classpathref="classpath"
+	  classname="uk.ac.starlink.ttools.build.UsageWriterMan"
+	  failonerror="yes"
+          dir="${build.docs}"
+	  fork="yes">
+      <sysproperty key="java.awt.headless" value="true"/>
+    </java>
   </target>
 
   <!-- Checks whether the docs build is up to date. -->
