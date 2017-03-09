@@ -81,7 +81,11 @@ public class LineInvoker {
                      arg.equals( "-h" ) ) {
                     it.remove();
                     String topic = it.hasNext() ? (String) it.next() : null;
-                    out.println( "\n" + getUsage( topic ) );
+		    try {
+			externalManpage(topic);
+		    } catch (Exception e) {
+			out.println( "\n" + getUsage( topic ) );
+		    }
                     return 0;
                 }
                 else if ( arg.equals( "-version" ) ) {
@@ -444,7 +448,12 @@ public class LineInvoker {
             if ( arg.equals( "-help" ) ||
                  arg.equals( "-h" ) ||
                  arg.equalsIgnoreCase( "help" ) ) {
-                return getTaskUsage( env, task, taskName );
+		try {
+		    externalManpage(taskName);
+		    return "";
+		} catch (Exception e) {
+		    return getTaskUsage( env, task, taskName );
+		}
             }
             else if ( arg.toLowerCase().startsWith( "-help=" ) ) {
                 helpFor = arg.substring( 6 ).trim().toLowerCase();
@@ -628,6 +637,29 @@ public class LineInvoker {
                 .append( '\n' );
         }
         return sbuf.toString();
+    }
+
+    /**
+     * Call the stilts manpage with the "man" command.
+     *
+     */
+    private void externalManpage(String topic) throws IOException {
+	String manpage = "stilts";
+	if ((topic != null)  && topic.length() > 0) {
+	    manpage += "-" + topic;
+	}
+	String[] cmd = new String[3];
+	cmd[0] = "sh";
+	cmd[1] = "-c";
+	cmd[2] = "man " + manpage + " < /dev/tty > /dev/tty";
+	Process p = Runtime.getRuntime().exec(cmd);
+	try {
+	    p.waitFor();
+	} catch (InterruptedException e) {
+	}
+	if (p.exitValue() != 0) {
+	    throw new IOException("man call error");
+	}
     }
 
     /**
