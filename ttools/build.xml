@@ -1314,6 +1314,14 @@
 	  fork="yes">
       <sysproperty key="java.awt.headless" value="true"/>
     </java>
+    <mkdir dir="${build.dir}/bash-completion"/>
+    <java classpathref="classpath"
+	  classname="uk.ac.starlink.ttools.build.BashComplete"
+	  failonerror="yes"
+          dir="${build.dir}/bash-completion"
+	  fork="yes">
+      <sysproperty key="java.awt.headless" value="true"/>
+    </java>
   </target>
 
   <!-- Checks whether the docs build is up to date. -->
