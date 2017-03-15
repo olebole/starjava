@@ -485,7 +485,7 @@
 
     <!-- Write the package version number to a file. -->
     <echo file="${build.classes}/uk/ac/starlink/ttools/stilts.version"
-          message="${version}"/>
+          message="${version}-debian"/>
 
     <!-- Local third party jars, if any. Copy straight into
      !   distribution directories to save on unnecessary copies and to
@@ -1290,7 +1290,7 @@
     <xslt in="${build.docs}/${user.doc}.xml"
           out="${build.docs}/${user.doc}/${user.doc}.html"
           style="${xdoc.etc}/toHTML1.xslt">
-      <param name="VERSION" expression="${version}"/>
+      <param name="VERSION" expression="${version}-debian"/>
       <param name="BASEDIR" expression="${build.docs}/${user.doc}"/>
       <param name="COVERIMAGE" expression="${coverimage}"/>
       <param name="CSS_HREF" expression="sun-style.css"/>
@@ -1301,7 +1301,7 @@
           out="${build.docs}/${user.doc}/${user.doc}.2.html"
           classpath="/usr/share/java/Saxon-HE.jar"
           style="${xdoc.etc}/toHTML.xslt">
-      <param name="VERSION" expression="${version}"/>
+      <param name="VERSION" expression="${version}-debian"/>
       <param name="BASEDIR" expression="${build.docs}/${user.doc}"/>
       <param name="FIGDIR" expression="${build.docs}/${user.doc}"/>
       <param name="COVERIMAGE" expression="${coverimage}"/>
