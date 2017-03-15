@@ -395,6 +395,10 @@ GNU General Public Licence.  Its underlying table processing facilities
 are provided by STIL, the Starlink Tables Infrastructure Library.
 </px>
 
+<px><em>This document describes the Debian version of TOPCAT, which differs in a
+few properties from the original.</em>
+</px>
+
 </abstract>
 
 <sect id="intro">
@@ -519,6 +523,38 @@ see documentation of the
 for more details.
 </p>
 
+<subsect id="debian">
+<subhead><title>Debian specific changes</title></subhead>
+
+<p>This document describes the Debian version of TOPCAT, which differs
+in a few properties from the original. Some rarely used or non-free
+support modules were removed:
+<ul>
+<li>HTM (non-free library),</li>
+<li>PLASTIC (outdated and superceded by SAMP),</li>
+<li>Data structures and formats: HDS, HDX, NDX, GBIN, and Mirage,</li>
+<li>Remote data access via Astrogrid (MySpace) and SRB,</li>
+<li>Image display via SOG, Diva, JSky.</li>
+</ul>
+</p>
+<p>Please file a bug report if you think that some of this support shall
+be brought back.
+</p>
+<p>Also, the Debian version of topcat uses external libraries which
+are different from the libraries shipped with the original TOPCAT
+distribution, with the fits Java library (<code>nom.tam.fits</code>;
+Debian package <webref url="https://packages.debian.org/libfits-java">
+<code>libfits-java</code></webref>)
+as the most important one. This may trigger bugs that do not appear in
+the original version. Please report problems with the Debian version
+of TOPCAT to the Debian bug database with the
+<webref url="https://packages.debian.org/reportbug">
+<code>reportbug</code></webref> tool.
+</p>
+<p>Automated update check is disabled by default for user
+privacy. Use the Debian update mechanism to keep TOPCAT up to date.
+</p>
+</subsect>
 </sect>
 
 <sect id="quick">
