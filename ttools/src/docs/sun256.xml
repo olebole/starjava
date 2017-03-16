@@ -1318,53 +1318,15 @@ is given in the following subsections.
 <subsect id="jyrun">
 <subhead><title>Running JyStilts</title></subhead>
 
-<p>The easiest way to run JyStilts is to download the standalone
-<code>jystilts.jar</code> file from the STILTS web page,
-and simply run
-<verbatim>
-    java -jar jystilts.jar   
-</verbatim>
-This file includes jython itself and all the STILTS and JyStilts classes.
-To use the JyStilts commands, you will need to import the stilts
-module using a line like "<code>import stilts</code>"
-from Jython in the usual Python way.
-</p>
-
-<p>Alternatively, you can run JyStilts from an existing Jython installation
-using just the <code>stilts.jar</code> file.
-First, make sure that Jython is installed;
-it is available from <webref url="http://www.jython.org/"/>,
-and comes as a self-installing jar file.
-JyStilts has been tested, and appears to work, on versions
-2.5.0 and 2.5.1; it's recommended to use the latest version
-if you don't have some reason to use one of the others.
-Some earlier versions of JyStilts worked with jython 2.2.1, 
-but that no longer seems to be the case; it might be possible
-to reinstate this if there is some pressing need.
-</p>
-
-<p>To use JyStilts, you then just need to
-start jython with the <code>stilts.jar</code> file on your classpath,
-for instance like this:
-<verbatim>
-    jython -J-classpath /some/where/stilts.jar
-</verbatim>
-or (C-shell):
-<verbatim>
-    setenv CLASSPATH /some/where/stilts.jar
-    jython
-</verbatim>
-</p>
-
-<p>Optionally, you can extract the <code>stilts.py</code> module 
-from the stilts.jar file 
-(using a command like "<code>unzip stilts.jar stilts.py</code>")
-and put it in a directory on your jython 
-<code>sys.path</code> (e.g. <code>jythondir/Lib</code>);
-this may cause jython to compile it to bytecode (<code>stilts$py.class</code>)
-and thus improve startup time.
-Note that in this case you will still need the <code>stilts.jar</code> 
-file on your classpath as above.
+<p>You can run JyStilts from an existing Jython installation.
+Just make sure that the
+<webref url="https://packages.debian.org/jython-stils">
+<code>jython-stilts</code></webref> Debian package is installed.
+Then you can just do an
+<verbatim><![CDATA[
+>>> import stilts
+]]></verbatim>
+to have the stilts package available.
 </p>
 
 </subsect>

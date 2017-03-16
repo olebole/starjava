@@ -166,8 +166,31 @@ public class JyStilts {
             "for tutorial and full usage information.",
             "'''",
             "",
-            "from __future__ import generators",
             "__author__ = 'Mark Taylor'",
+            "",
+	    "import sys",
+	    "import java.util.jar",
+	    "",
+            "# see also http://bugs.jython.org/issue547727",
+            "def _recursivelyAddJar(jarfile):",
+            "    if jarfile.canonicalPath in sys.path:",
+            "        return",
+            "    sys.path.append(jarfile.canonicalPath)",
+            "    try:",
+            "        jar = java.util.jar.JarFile(jarfile)",
+            "        if jar and jar.manifest:",
+            "            jarAttrs = jar.manifest.mainAttributes",
+            "            jarClassPath = jarAttrs[java.util.jar.Attributes.Name.CLASS_PATH]",
+            "            if jarClassPath:",
+            "                for p in jarClassPath.split():",
+            "                    _recursivelyAddJar(java.io.File(jarfile.parent, p))",
+            "    except java.io.FileNotFoundException:",
+            "        pass # ignore jars that are not there",
+            "",
+            "_recursivelyAddJar(java.io.File('/usr/share/java/starlink-ttools.jar'))",
+            "",
+            "del _recursivelyAddJar",
+            "del sys",
             "",
         };
     }
@@ -315,9 +338,7 @@ public class JyStilts {
             /* Utility to raise an error if a handler can't write multiple
              * tables. */
             "def _check_multi_handler(handler):",
-            "    if not " + getImportName( Class.class )
-                          + ".forName('" + MultiStarTableWriter.class.getName()
-                                         + "')"
+            "    if not " + "_MultiStarTableWriter"
                           + ".isInstance(handler):",
             "        raise TypeError('Handler %s cannot write multiple tables' "
                                     + "% handler.getFormatName())",
