@@ -13,9 +13,6 @@
   <!ENTITY topcat.usage SYSTEM "topcat.usage">
 
   <!-- Import entity definitions from other packages including customisation -->
-  <!ENTITY gbin.stil.intro SYSTEM "gbin-stil-intro.xdoc">
-  <!ENTITY gbin.stil.appexample SYSTEM "gbin-stil-appexample.xdoc">
-  <!ENTITY gbin.stil.notes SYSTEM "gbin-stil-notes.xdoc">
   <!ENTITY gbin-package-name 'TOPCAT'>
   <!ENTITY gbin-package-cmdline 'topcat'>
   <!ENTITY gbin-package-classpath 'topcat-full.jar'>
@@ -578,7 +575,7 @@ something like
 <code>java -jar topcat-full.jar</code> (see <ref id="invoke"/> for
 more detail).  To view a table that you have on disk, you can either
 give its name on the command line or load it using the <label>Load</label>
-button from the GUI.  FITS, VOTable, CDF and GBIN files
+button from the GUI.  FITS, VOTable and CDF files
 are recognised automatically;
 if your data is in another format such as ASCII (see <ref id="inFormats"/>)
 you need to tell the program (e.g. <code>-f ascii</code> on the command line).
@@ -1056,7 +1053,7 @@ supported input formats have matching output formats and vice versa.
 <p>Loading tables into TOPCAT is done either from the command line
 when you start the program up or
 using the <ref id="LoadWindow">Load Table</ref> dialogue.
-For FITS, VOTable, CDF and GBIN formats
+For FITS, VOTable and CDF formats
 the file format can be detected automatically
 (note this is done by looking at the file content, it has nothing
 to do with filename extensions).
@@ -1440,9 +1437,12 @@ you wish to load a table in <code>csv</code> format.
 <subsubsubsect id="inGbin">
 <subhead><title>GBIN</title></subhead>
 
-&gbin.stil.intro;
-&gbin.stil.appexample;
-&gbin.stil.notes;
+<p>GBIN format is a special-interest file format used within DPAC,
+the Data Processing and Analysis Consortium working on data from the
+Gaia astrometry satellite.
+</p>
+<p><em>The GBIN format is not supported in the Debian release of topcat.</em>
+</p>
 
 </subsubsubsect>
 
