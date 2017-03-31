@@ -1236,6 +1236,9 @@ write them.
 Currently, no attempt is made to represent values representing
 times in a human-friendly fashion.  This may change in future releases.
 </p>
+<p><em>In the Debian version, CDF is only supported if the package
+<code>starlink-cdf-java</code> is installed.</em>
+</p>
 
 </subsubsubsect>
 
