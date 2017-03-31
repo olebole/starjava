@@ -2040,7 +2040,7 @@ allowed:
         To use them you must have an AstroGrid account and the AstroGrid
         WorkBench or similar must be running; if you're not currently
         logged in a dialogue will pop up to ask you for name and
-        password.</p></dd>
+        password. <em>Not available in the Debian version of TOPCAT.</em></p></dd>
     <dt><code>ivo:</code></dt>
     <dd><p>Understands ivo-type URLs which signify files in the
         AstroGrid "MySpace" virtual file store.
@@ -2050,7 +2050,7 @@ allowed:
         To use them you must have an AstroGrid account and the AstroGrid
         WorkBench or similar must be running; if you're not currently
         logged in a dialogue will pop up to ask you for name and
-        password.</p></dd>
+        password. <em>Not available in the Debian version of TOPCAT.</em></p></dd>
     <dt><code>jdbc:</code></dt>
     <dd><p>Used for communicating with SQL-compliant relational databases.
         These are a bit different to normal URLs - see
@@ -15234,6 +15234,10 @@ components of TOPCAT, and it may not be available if you
 have the topcat-lite configuration.
 </p>
 
+<p><em>Note: MySpace and GRB are not available in the Debian version
+of TOPCAT.</em>
+</p>
+
 <p>The browser initially displays the current directory, but this can be
 changed by typing a new directory into the <label>File Name</label> field,
 or moving up the directory hierarchy using the selector box at the top,
@@ -15352,7 +15356,7 @@ Nodes which represent tables are indicated by the
 For nodes which have some internal structure there is also a
 "handle" which indicates whether they are
 collapsed (&IMG.COLLAPSED;) or expanded (&IMG.EXPANDED;).
-You can examine remote filespaces (MySpace, SRB) 
+You can examine remote filespaces (MySpace, SRB; <em>not with the Debian version of TOPCAT</em>)
 as well as local ones in the same way as with the 
 <ref id="FilestoreTableLoadDialog">Filestore Browser</ref>.
 </p>
@@ -16245,11 +16249,6 @@ or double-clicking on displayed directories.
 The initial default directory can be changed by setting the
 <code>user.dir</code> 
 <ref id="jvmProperties" plaintextref="yes">system property</ref>.
-</p>
-
-<p>The browser can display files in remote filestores such as on
-MySpace or SRB servers; see the section on the load filestore
-browser (<ref id="FilestoreTableLoadDialog"/>) for details.
 </p>
 
 <p>To save to an existing file, select the file name and click the
