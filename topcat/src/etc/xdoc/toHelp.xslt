@@ -21,25 +21,23 @@
   <!ENTITY html.pubid "-//W3C//DTD HTML 3.2//EN">
 ]>
 
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 
   <xsl:import href="toHTML1.xslt"/>
 
-  <xsl:output method="xml"/>
+  <xsl:output method="html" indent="yes"/>
 
 
 <!-- Top-level processing. -->
 
   <xsl:template match="sun">
-    <multisection>
       <xsl:apply-templates mode="help-map" select="."/>
       <xsl:apply-templates mode="help-toc"/>
       <xsl:apply-templates mode="help-hs" select="."/>
       <xsl:apply-templates mode="help-text" select="."/>
       <xsl:apply-templates mode="help-search-config" select="."/>
-    </multisection>
   </xsl:template>
 
 
@@ -64,16 +62,8 @@
 <!-- Mode 'help-text' - the HTML help files themselves. -->
 
   <xsl:template mode="help-text" match="sun">
-    <xsl:element name="filesection">
-      <xsl:attribute name="file">
-        <xsl:text>&home.file;</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="method">
-        <xsl:text>html</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="doctype-public">
-        <xsl:text>&html.pubid;</xsl:text>
-      </xsl:attribute>
+    <xsl:result-document  method="html" indent="yes" href="&home.file;"
+			  doctype-public="&html.pubid;">
       <html>
         <head>
           <xsl:call-template name="cssStylesheet"/>
@@ -87,21 +77,16 @@
           <xsl:apply-templates mode="toc" select="docbody"/>
         </body>
       </html>
-    </xsl:element>
+    </xsl:result-document>
     <xsl:apply-templates mode="help-text" select="docbody"/>
   </xsl:template>
 
   <xsl:template mode="help-text" match="&file.elements;">
-    <xsl:element name="filesection">
-      <xsl:attribute name="file">
-        <xsl:call-template name="getFile"/>
-      </xsl:attribute>
-      <xsl:attribute name="method">
-        <xsl:text>html</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="doctype-public">
-        <xsl:text>&html.pubid;</xsl:text>
-      </xsl:attribute>
+    <xsl:variable name="filename">
+      <xsl:call-template name="getFile"/>
+    </xsl:variable>
+    <xsl:result-document method="html" indent="yes"
+			 href="{$filename}" doctype-public="&html.pubid;">
       <html>
         <head>
           <xsl:call-template name="cssStylesheet"/>
@@ -121,7 +106,7 @@
           </xsl:if>
         </body>
       </html>
-    </xsl:element>
+    </xsl:result-document>
     <xsl:apply-templates mode="help-text" select="&file.elements;"/>
   </xsl:template>
 
@@ -129,15 +114,13 @@
 <!-- Mode 'help-map' - the JavaHelp Map file. -->
 
   <xsl:template mode="help-map" match="sun">
-    <filesection file="&map.file;"
-                 method="xml"
-                 indent="yes"
-                 doctype-public="&map.pubid;"
-                 doctype-system="&map.sysid;">
+    <xsl:result-document method="xml" indent="yes" href="&map.file;"
+			 doctype-public="&map.pubid;"
+			 doctype-system="&map.sysid;">
       <map version="1.0">
         <xsl:apply-templates mode="help-map" select="&file.descendents;"/>
       </map>
-    </filesection>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template mode="help-map" match="&file.elements;">
@@ -158,16 +141,14 @@
   <xsl:template mode="help-toc" match="*"/>
 
   <xsl:template mode="help-toc" match="docbody">
-    <filesection file="&toc.file;"
-                 method="xml"
-                 indent="yes"
-                 doctype-public="&toc.pubid;"
-                 doctype-system="&toc.sysid;">
+    <xsl:result-document method="xml" indent="yes" href="&toc.file;"
+			 doctype-public="&toc.pubid;"
+			 doctype-system="&toc.sysid;">
       <toc version="1.0">
         <xsl:apply-templates mode="help-toc"
                              select="&file.elements;|appendices"/>
       </toc>
-    </filesection>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template mode="help-toc" match="&file.elements;">
@@ -190,23 +171,13 @@
 <!-- Mode 'help-hs' - the top-level Helpset file. -->
 
   <xsl:template mode="help-hs" match="sun">
-    <xsl:element name="filesection">
-      <xsl:attribute name="file">
-        <xsl:call-template name="getId"/>
-        <xsl:text>.hs</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="method">
-        <xsl:text>xml</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="indent">
-        <xsl:text>yes</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="doctype-public">
-        <xsl:text>&hs.pubid;</xsl:text>
-      </xsl:attribute>
-      <xsl:attribute name="doctype-system">
-        <xsl:text>&hs.sysid;</xsl:text>
-      </xsl:attribute>
+    <xsl:variable name="filename">
+      <xsl:call-template name="getId"/>
+      <xsl:text>.hs</xsl:text>
+    </xsl:variable>
+    <xsl:result-document method="xml" indent="yes" href="{$filename}"
+			 doctype-public="&hs.pubid;"
+			 doctype-system="&hs.sysid;">
       <helpset version="1.0">
         <title>
           <xsl:apply-templates select="docinfo/title"/>
@@ -230,19 +201,17 @@
           <data>&toc.file;</data>
         </view>
       </helpset>
-    </xsl:element>
+    </xsl:result-document>
   </xsl:template>
 
 
 <!-- Mode 'help-search-config' - config file for JavaHelp indexer. -->
 
   <xsl:template mode="help-search-config" match="sun">
-    <filesection file="&searchconfig.file;" method="text">
-      <content>
-        <xsl:apply-templates mode="help-search-config"
-                             select="&file.descendents;"/>
-      </content>
-    </filesection>
+    <xsl:result-document method="text" href="&searchconfig.file;">
+      <xsl:apply-templates mode="help-search-config"
+                           select="&file.descendents;"/>
+    </xsl:result-document>
   </xsl:template>
 
   <xsl:template mode="help-search-config" match="&file.elements;">
