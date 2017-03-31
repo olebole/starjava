@@ -1926,6 +1926,10 @@ suitable for insertion into a document intended for publication.
 <subsubsubsect id="mirage">
 <subhead><title>Mirage Format</title></subhead>
 
+<p><em>Note: the Mirage protocol is not implemented in the Debian version
+of TOPCAT</em>
+</p>
+
 <p><webref url="http://www.bell-labs.com/project/mirage/index.html"
            plaintextref="yes"
            >Mirage</webref>
